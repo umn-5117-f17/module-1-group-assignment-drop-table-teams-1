@@ -11,17 +11,18 @@ Please fill out all of the following sections to help us grade your submission:
 
 
 ## Name of Team: x
-
+* DROP TABLE teams;--
 
 ## Students
 
-* First Last, x500@umn.edu
-* ...
+* Benji Fischman, fisch885@umn.edu
+* Connor McCrory, mccro016@umn.edu
+* Michael Wang, wang4860@umn.edu
 
 
 ## Link to Site
 
-<https://TODO.herokuapp.com/>
+<https://shrouded-hollows-89342.herokuapp.com/>
 
 
 ## Key Features
@@ -57,9 +58,9 @@ here:**
 
 ## Links to Test Data
 
-This project requires user-submitted data.  If you have files or other scripts 
-that would be necessary (or helpful) for us to test your application, please 
-link to them here.  For example, if your project parses gzipped apache logs, 
+This project requires user-submitted data.  If you have files or other scripts
+that would be necessary (or helpful) for us to test your application, please
+link to them here.  For example, if your project parses gzipped apache logs,
 provide a few gzipped apache logs here.
 
 * link to file
