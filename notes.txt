@@ -1,0 +1,18 @@
+Our variables
+  Engagement
+    = sum(all actions) / sum(active use days)
+  Initial Relapse
+    = First.Relapse.Time - Start.Time
+  Action Diversity
+    = sum(unique actions) / 5
+  Daily Message
+    = sum(daily message views) / sum(all actions)
+
+Quantifying 'active use day'
+  if a user does an action, it is considered an 'active use day'
+  actions are
+    Track progress
+    view daily message
+    attend meeting
+    view steps
+    seek support
