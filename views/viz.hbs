@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  	<h1>This page is meant for d3 visualization</h1>
+
+  	<div class= 'framewrap'>
+  		<ul>
+  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
+  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
+  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
+  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
+  </ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script type="text/javascript"> d3.csv("/data/sampleData.csv", function(data) {
+  console.log(data[0]);
+});</script>
+  </body>
+</html> 
