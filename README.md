@@ -7,7 +7,7 @@ CSCI 5117, Fall 2017
 Please fill out all of the following sections to help us grade your submission:
 
 
-## Name of App: x
+## Name of App: Hazelden Data Exploration App
 
 
 ## Name of Team: x

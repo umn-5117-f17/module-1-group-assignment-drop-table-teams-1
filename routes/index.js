@@ -5,7 +5,8 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
-});
+  console.log('Index Test');
+})
 
 router.post('/computation', function(req, res, next) {
   var ssv = d3.dsvFormat(" ");
