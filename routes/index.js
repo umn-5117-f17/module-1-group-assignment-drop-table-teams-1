@@ -9,18 +9,24 @@ router.get('/', function(req, res, next) {
 })
 
 router.post('/computation', function(req, res, next) {
-  var ssv = d3.dsvFormat(" ");
-  d3.ssv("../data/HazeldenUserAvgs.csv", function(data) {
+  d3.csv("../data/HazeldenUserAvgs.csv", function(data) {
     console.log(data[0]);
 
     //yearly numbers?
-    var meeting = req.body.meeting;
-    var support = req.body.support;
-    var trackProgress = req.body.trackProgress;
-    var dailyMessageResponse = req.body.dailyMessage;
-    var twelveStep = req.body.12step;
-    var initialRelapse = req.body.relapse;
-    //var duration = req.body.duration;
+    var meetingPeriod = req.body.meetingPeriod;
+    var meetingFrequency = req.body.meetingFrequency;
+    var supportPeriod = req.body.supportPeriod;
+    var supportFrequency = req.body.supportFrequency;
+    var trackProgressPeriod = req.body.trackProgressPeriod;
+    var trackProgressFrequency = req.body.trackProgressFrequency;
+    var dailyMessagePeriod = req.body.dailyMessagePeriod;
+    var dailyMessageFrequency = req.body.dailyMessageFrequency;
+    var twelveStepPeriod = req.body.12stepPeriod;
+    var twelveStepFrequency = req.body.12stepFreqency;
+    var initialRelapsePeriod = req.body.relapsePeriod;
+    var initialRelapseFrequency = req.body.relapseFreqency;
+    var durationPeriod = req.body.durationPeriod;
+    var durationFrequency = req.body.durationFrequency;
 
     var totalActions = meeting + support + trackProgress + dailyMessageResponse + twelveStep;
     // if duration need to divide totalActions by duration to put in scope of user
@@ -84,38 +90,26 @@ router.post('/computation', function(req, res, next) {
       user info for those 10 users and send to visualization
     */
     var users = [];
-    var numNeeded = 10;
-    for(var i = 0, i < numNeeded; i++) {
-      var id = distance[i];
-      users[i] =
-      {
-        // search for user info in csv file based on user ID
-        //place into json object
-      };
-    }
+    d3.csv("../data/HazeldenData.csv", function(userData) {
+      var numNeeded = 10;
+      for(var i = 0, i < numNeeded; i++) {
+        var id = distance[i];
+        users[i] =
+        {
+          // search for user info in csv file based on user ID
+          //place into json object
+        };
+      }
+    });
     // Send to visualization
   });
 });
 
 
 
-function calculator(often, frequency, durationOften, durationFrequency) {
-  var perYear;
-  switch(often) {
-    case "weekly":
-      perYear = 52 * frequency;
-      break;
-    case "daily":
-      perYear = 365 * frequency;
-      break;
-    case "monthly":
-      perYear = 12 * frequency;
-      break;
-    case "Yearly":
-      perYear = frequency;
-      break;
-  }
-  switch(durationOften) {
+function calculator(period, frequency, durationPeriod, durationFrequency) {
+  var perYear = period * frequency;
+  switch(durationPeriod) {
     case "days":
       return perYear / 365 * durationFrequency;
     case "weeks":
