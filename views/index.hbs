@@ -1,133 +1,166 @@
-<h1>Welcome to the Hazelden Data Exploration App!</h1>
-<p>Please comeplete the form below to discover users similar to yourself!</p>
-<form>
-  <p>How often do you attend 12 step recovery meetings</p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="meeting" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p>How often do you seek support during your recoverty process?</p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="support" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p>
-    How often have you kept track of progress?<br>
-    (e.g. Make a journal entry, kept a sober counter, etc.)
-  </p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="trackProgress" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p>How often do you read inspiriational messages/message of the day?</p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="message" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p>How often do you view any of the 12 steps?</p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="12step" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p>
-    After you first started attending 12 step meetings how long did you remain sober?<br>
-    (i.e. Duration until initial relapse.)
-  </p>
-  <table>
-    <tr>
-      <td>Period</td>
-      <td>Frequency</td>
-    </tr>
-    <tr>
-      <td>
-        <select>
-          <option value="1">Daily</option>
-          <option value="7">Weekly</option>
-          <option value="30">Monthly</option>
-          <option value="365">Yearly</option>
-        </select>
-      </td>
-      <td>
-        <input name="relapse" type="number"><br>
-      </td>
-    </tr>
-  </table>
-  <p></p>
-  <!-- <input type="button" name="ajaxButton" id="ajaxButton"> -->
-  <input type="submit">
-</form>
+<div id="body">
+  <h1>Welcome to the Hazelden Data Exploration App!</h1>
+  <!-- <div class=columns>
+    <div class="column">
+    First column
+    </div>
+    <div class="column">
+      Second column
+    </div>
+    <div class="column">
+      Third column
+    </div>
+  </div> -->
+  <p>Please comeplete the form below to discover users similar to yourself!</p>
+  <form action="/viz" method="post" id="theForm" enctype="application/x-www-form-urlencoded">
+    <p>How long have you been involved in a 12 step recoverty program?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="durationPeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="duration" name="duration" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>How often do you attend 12 step recovery meetings</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="meetingPeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="meeting" name="meeting" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>How often do you seek support during your recoverty process?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="supportPeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="support" name="support" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>
+      How often have you kept track of progress?<br>
+      (e.g. Make a journal entry, kept a sober counter, etc.)
+    </p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="trackProgressPeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="trackProgress" name="trackProgress" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>How often do you read inspiriational messages/message of the day?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="messagePeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="message" name="message" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>How often do you view any of the 12 steps?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="12stepPeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="12step" name="12step" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p>
+      After you first started attending 12 step meetings how long did you remain sober?<br>
+      (i.e. Duration until initial relapse.)
+    </p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select name="relapsePeriod" form="theForm">
+            <option value="365">Daily</option>
+            <option value="52">Weekly</option>
+            <option value="12">Monthly</option>
+            <option value="1">Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input id="relapse" name="relapse" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p></p>
+    <!-- <input type="button" value="Submit" id="theAjaxButton"> -->
+    <input type="submit" value="Submit">
+  </form>
+</div>

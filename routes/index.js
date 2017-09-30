@@ -3,8 +3,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  console.log('Index Test');
+  res.render('index', { title: 'Hazelden Data Exploration' });
 })
-
 module.exports = router;
