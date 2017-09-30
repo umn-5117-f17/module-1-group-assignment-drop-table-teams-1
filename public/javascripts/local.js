@@ -1,13 +1,17 @@
-$(function() {
+$(function(){
+  console.log(Data)
+});
+
+//$(function() {
   // $('#theinputfield').change(function() {
   //   console.log('picked file',
   //   $('#theinputfield')[0].files[0]);
   // });
 
-  $('#theform').submit(function(e) {
-    console.log('form submit')
-    e.preventDefault();
-  });
+  //$('#theform').submit(function(e) {
+   // console.log('form submit')
+    //e.preventDefault();
+  //});
   //
   // $('#theAjaxButton').click(function(e) {
   //   // how to select the file itself
@@ -33,5 +37,4 @@ $(function() {
   //     }
   //   });
 
-  });
-})
+
