@@ -6,7 +6,7 @@ var fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', data);
+  res.render('index');
 });
 
 router.post('/computation', function(req, res, next) {
