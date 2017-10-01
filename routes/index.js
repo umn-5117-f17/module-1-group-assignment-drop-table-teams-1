@@ -33,20 +33,20 @@ router.post('/computation', function(req, res, next) {
       /*
         saving the incoming form data
       */
-      var meetingPeriod = 52;
-      var meetingFrequency = 1;
-      var supportPeriod = 12;
-      var supportFrequency = 2;
-      var trackProgressPeriod = 52;
-      var trackProgressFrequency = 2;
-      var dailyMessagePeriod = 52;
-      var dailyMessageFrequency = 4;
-      var twelveStepPeriod = 1;
-      var twelveStepFrequency = 2;
-      var initialRelapsePeriod = 52;
-      var initialRelapseFrequency = 8
-      var durationPeriod = 1;
-      var durationFrequency = 2;
+      var meetingPeriod = req.body.meetingPeriod;
+      var meetingFrequency = req.body.meeting;
+      var supportPeriod = req.body.supportPeriod;
+      var supportFrequency = req.body.support;
+      var trackProgressPeriod = req.body.trackProgressPeriod;
+      var trackProgressFrequency = req.body.trackProgress;
+      var dailyMessagePeriod = req.body.messagePeriod;
+      var dailyMessageFrequency = req.body.message;
+      var twelveStepPeriod = req.body.twelveStepPeriod;
+      var twelveStepFrequency = req.body.twelveStep;
+      var initialRelapsePeriod = req.body.relapsePeriod;
+      var initialRelapseFrequency = req.body.relapse;
+      var durationPeriod = req.body.durationPeriod;
+      var durationFrequency = req.body.duration;
 
       /*
         putting form data in terms of total times for acitve use period
