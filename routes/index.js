@@ -6,18 +6,7 @@ var fs = require('fs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  var csvData=[];
-  fs.createReadStream('./data/HazeldenData.csv')
-      .pipe(parse({delimiter: ','}))
-      .on('data', function(csvrow) {
-          //do something with csvrow
-          csvData.push(csvrow);
-      })
-      .on('end',function() {
-        //do something wiht csvData
-        console.log(csvData.length);
-      });
-  res.render('index');
+
 });
 
 router.post('/computation', function(req, res, next) {
@@ -29,9 +18,6 @@ router.post('/computation', function(req, res, next) {
           csvData.push(csvrow);
       })
       .on('end',function() {
-        //do something wiht csvData
-        console.log(csvData);
-      });
 
       var userData=[];
       fs.createReadStream('./data/HazeldenData.csv')
@@ -42,42 +28,49 @@ router.post('/computation', function(req, res, next) {
           })
           .on('end',function() {
             //do something wiht csvData
-            console.log(userData);
-          });
 
-      var meetingPeriod = req.body.meetingPeriod;
-      var meetingFrequency = req.body.meeting;
-      var supportPeriod = req.body.supportPeriod;
-      var supportFrequency = req.body.support;
-      var trackProgressPeriod = req.body.trackProgressPeriod;
-      var trackProgressFrequency = req.body.trackProgress;
-      var dailyMessagePeriod = req.body.messagePeriod;
-      var dailyMessageFrequency = req.body.message;
-      var twelveStepPeriod = req.body.twelveStepPeriod;
-      var twelveStepFrequency = req.body.twelveStep;
-      var initialRelapsePeriod = req.body.relapsePeriod;
-      var initialRelapseFrequency = req.body.relapse;
-      var durationPeriod = req.body.durationPeriod;
-      var durationFrequency = req.body.duration;
+
+      /*
+        saving the incoming form data
+      */
+      var meetingPeriod = 52;
+      var meetingFrequency = 1;
+      var supportPeriod = 12;
+      var supportFrequency = 2;
+      var trackProgressPeriod = 52;
+      var trackProgressFrequency = 2;
+      var dailyMessagePeriod = 52;
+      var dailyMessageFrequency = 4;
+      var twelveStepPeriod = 1;
+      var twelveStepFrequency = 2;
+      var initialRelapsePeriod = 52;
+      var initialRelapseFrequency = 8
+      var durationPeriod = 1;
+      var durationFrequency = 2;
+
+      /*
+        putting form data in terms of total times for acitve use period
+      */
 
       var meeting = calculator(meetingPeriod, meetingFrequency, durationPeriod, durationFrequency);
       var support = calculator(supportPeriod, supportFrequency, durationPeriod, durationFrequency);
       var progress = calculator(trackProgressPeriod, trackProgressFrequency, durationPeriod, durationFrequency);
-      var message = calculator(messagePeriod, messageFrequency, durationPeriod, durationFrequency);
+      var message = calculator(dailyMessagePeriod, dailyMessageFrequency, durationPeriod, durationFrequency);
       var step = calculator(twelveStepPeriod, twelveStepFrequency, durationPeriod, durationFrequency);
       var totalActions = meeting + support + progress + message + step;
       var activeUseDays = totalActions;
+      var initialRelapse = 20;
       // if duration need to divide totalActions by duration to put in scope of user
       var uniqueActions = 5;
       if(meeting == 0) {
         uniqueActions-=1;
       } else if(support == 0) {
         uniqueActions-=1;
-      } else if(trackProgress == 0) {
+      } else if(progress == 0) {
         uniqueActions-=1;
-      } else if(dailyMessageResponse == 0) {
+      } else if(message == 0) {
         uniqueActions-=1;
-      } else if(twelveStep == 0) {
+      } else if(step == 0) {
         uniqueActions-=1;
       }
 
@@ -89,8 +82,8 @@ router.post('/computation', function(req, res, next) {
       /*
         Sort into distance array smallest to largest. Placing user id and distance into array
       */
-      // should have 596 lines of data
-      var numRows = 596;
+      // should have 596 lines of data, first line is column headers
+      var numRows = 597;
       /*
         csvData contents
         0: App.Instance.ID
@@ -107,20 +100,18 @@ router.post('/computation', function(req, res, next) {
         11: meeting
       */
       var distance = [];
-      for(var i = 1; i <= numRows; i++) {
-        var e = Math.pow(engagement - csvData[i][1]);
-        var ir = Math.pow(initialRelapse - data[i][4]);
-        var ad = Math.pow(actionDiversity - data[i][2]);
-        var dm = Math.pow(dailyMessage - data[i][9]);
+      for(var i = 1; i < numRows; i++) {
+        var e = Math.pow(engagement - csvData[i][1],2);
+        var ir = Math.pow(initialRelapse - csvData[i][4],2);
+        var ad = Math.pow(actionDiversity - csvData[i][2],2);
+        var dm = Math.pow(dailyMessage - csvData[i][9],2);
         var d = Math.sqrt(e + ir + ad + dm);
-
-        distance[i] =
+        distance[i-1] =
         {
           id: csvData[i][0],
           distance: d,
         };
       }
-
       //Bubble sort the array of distances
       bubbleSort(distance);
 
@@ -132,29 +123,32 @@ router.post('/computation', function(req, res, next) {
       //initialize users array
       var users = new Array(10);
       for(var i = 0; i<10; i++) {
-        x[i] = [];
+        users[i] = [];
       }
+      var numNeeded = 10;
       for(var i = 0; i< numNeeded; i++) {
         count=0;
         for(var j = 1; j < 48732; j++) {
           if(distance[i].id == userData[j][0]) {
-            users[i][count] = userData[j][0];
+            users[i][count] = userData[j];
             count++;
           }
         }
       }
 
-      //send users array to viz
+      //console.log(users[0]);
       res.render('viz', users);
-
+        });
+      });
 });
 
-function bubbleSort(a)
+function bubbleSort(distance)
 {
+  console.log(distance.length);
   var swapped;
   do {
       swapped = false;
-      for (var i=0; i < a.length-1; i++) {
+      for (var i=0; i < distance.length-1; i++) {
           if (distance[i].distance > distance[i+1].distance) {
               var temp = distance[i];
               distance[i] = distance[i+1];
@@ -171,13 +165,13 @@ function calculator(period, frequency, durationPeriod, durationFrequency) {
     return 0;
   }
   switch(durationPeriod) {
-    case "365":
+    case 365:
       return (perYear / 365) * durationFrequency;
-    case "52":
+    case 52:
       return (perYear / 52) * durationFrequency;
-    case "12":
+    case 12:
       return (perYear / 12) * durationFrequency;
-    case "1":
+    case 1:
       return perYear * durationFrequency;
   }
 }
