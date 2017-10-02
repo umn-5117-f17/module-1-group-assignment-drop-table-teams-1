@@ -10,6 +10,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/computation', function(req, res, next) {
+  console.log("in the computation post");
+  //console.log(req.body);
   var csvData=[];
   fs.createReadStream('./data/HazeldenUserAvgs.csv')
       .pipe(parse({delimiter: ','}))
@@ -125,26 +127,55 @@ router.post('/computation', function(req, res, next) {
       for(var i = 0; i<10; i++) {
         users[i] = [];
       }
+      var js;
       var numNeeded = 10;
       for(var i = 0; i< numNeeded; i++) {
         count=0;
         for(var j = 1; j < 48732; j++) {
           if(distance[i].id == userData[j][0]) {
-            users[i][count] = userData[j];
+            js = HazeldenData(userData[j][0], userData[j][1], userData[j][2], userData[j][3], userData[j][4], userData[j][5], userData[j][6]);
+            users[i][count] = js;
+            //console.log(js);
             count++;
           }
         }
       }
-
-      //console.log(users[0]);
-      res.render('viz', users);
+      var dist = [
+        distance[0].distance, distance[1].distance, distance[2].distance, distance[3].distance, distance[4].distance, distance[5].distance, distance[6].distance, distance[7].distance, distance[8].distance, distance[9].distance];
+      var retObj = {
+        userSim: dist,
+        user1: users[0],
+        user2: users[1],
+        user3: users[2],
+        user4: users[3],
+        user5: users[4],
+        user6: users[5],
+        user7: users[6],
+        user8: users[7],
+        user9: users[8],
+        user10: users[9],
+      };
+      //res.render('viz', users);
+      res.json(retObj);
         });
       });
 });
 
+function HazeldenData(Fone,Ftwo, Fthree, Ffour, Ffive, Fsix, Fseven){
+          this.AppID = Fone;
+          this.Timestamp = Ftwo;
+          this.DataName = Fthree;
+          this.DataCode = Ffour;
+          this.UserEngagment = Ffive;
+          this.actionDiversity = Fsix;
+          this.dailyMessage = Fseven;
+          var obj =  {"ID":this.AppID, "Time": this.Timestamp, "dName":this.DataName, "dCode":this.DataCode, "Engagment": this.UserEngagment, "aDiversity": this.actionDiversity, "dailyMsg": this.dailyMessage}
+          //console.log(obj);
+          return obj;
+}
+
 function bubbleSort(distance)
 {
-  console.log(distance.length);
   var swapped;
   do {
       swapped = false;
@@ -160,18 +191,29 @@ function bubbleSort(distance)
 }
 
 function calculator(period, frequency, durationPeriod, durationFrequency) {
-  var perYear = period * frequency;
+  var perYear;
+  switch(period) {
+    case '365':
+      perYear = 365 * frequency;
+    case '52':
+      perYear = 52 * frequency;
+    case '12':
+      perYear = 12 * frequency;
+    case '1':
+      perYear = 1 * frequency;
+  }
   if(perYear == 0) {
     return 0;
   }
+
   switch(durationPeriod) {
-    case 365:
+    case '365':
       return (perYear / 365) * durationFrequency;
-    case 52:
+    case '52':
       return (perYear / 52) * durationFrequency;
-    case 12:
+    case '12':
       return (perYear / 12) * durationFrequency;
-    case 1:
+    case '1':
       return perYear * durationFrequency;
   }
 }

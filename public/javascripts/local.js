@@ -1,20 +1,27 @@
 $(function() {
-  $('#theAjaxButton').click(function(e) {
+  $('#btn').click(function(e) {
     // console.log('click!');
     var form = $('#theForm')[0];
     var jdata = {
       //The format for this data is as follows
       //question name/tag : [period, frequency]
-      "duration"      : [form[0].value, form[1].value],
-      "meeting"       : [form[2].value, form[3].value],
-      "support"       : [form[4].value, form[5].value],
-      "trackProgress" : [form[6].value, form[7].value],
-      "message"       : [form[8].value, form[9].value],
-      "12step"        : [form[10].value, form[11].value],
-      "relapse"       : [form[12].value, form[13].value],
+      "durationPeriod"      : form[0].value,
+      "duration"            : form[1].value,
+      "meetingPeriod"       : form[2].value,
+      "meeting"             : form[3].value,
+      "supportPeriod"       : form[4].value,
+      "support"             : form[5].value,
+      "trackProgressPeriod" : form[6].value,
+      "trackProgress"       : form[7].value,
+      "messagePeriod"       : form[8].value,
+      "message"             : form[9].value,
+      "twelveStepPeriod"    : form[10].value,
+      "twelveStep"          : form[11].value,
+      "relapsePeriod"       : form[12].value,
+      "relapse"             : form[13].value,
     }
     // console.log(data);
-    $.ajax({
+    /*$.ajax({
       url: '/viz',
       data: jdata,
       processData: false,
@@ -23,6 +30,10 @@ $(function() {
       success: function(data) {
         $('#body').html(JSON.stringify(data));
       }
+    });
+    */
+    $.post('/computation',jdata, function(rsp) {
+      console.log(rsp.userSim);
     });
   });
 });
