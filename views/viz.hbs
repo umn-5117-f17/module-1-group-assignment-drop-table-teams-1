@@ -1,26 +1,150 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://jquery-3.2.1.min.js"></script>
-    <script src="./javascripts/local.js"></script>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
-  </head>
-  <body>
-  	<h1>This page is meant for d3 visualization</h1>
+<head>
+  <title>{{title}}</title>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="./javascripts/local.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+ <h1>This page is meant for d3 visualization</h1>
 
-  	<div class= 'framewrap'>
-  		<ul>
-  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
-  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
-  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
-  	<li><div id="user-wrapper"> <div id="summary-wrapper"><svg id="graph-summary" height="500"></svg></div> <div id="graph-wrapper"><svg id="user-graph" height="500"></svg></div></div></li>
-  </ul>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ <div id="container">
+  <p id="headline" class="hed"></p>
+  <p class="dek"></p>
+  <p class="dek"></p> 
+</div>
 
-    <script type="text/javascript"> d3., function(data) {
-  console.log(data[0]);
-});</script>
-  </body>
+<p id="main-menu" class="menuchoice">Sort By: <select>
+  <option value="val1">Similarity</option>
+  <option value="val2">Quantity of Relapse</option>
+  <option value="val3">Engagment</option>
+  <option value="val4">Another Variable</option>
+</select>
+
+<div class= 'framewrap'>
+  <ul>
+  	<li><div id="user-wrapper">
+    </select> <div id="summary-wrapper"><p id="menu-one" class="menuchoice">Select series: <select>
+      <option value="val1">Value 1</option>
+      <option value="val2">Value 2</option>
+      <option value="val3">Value 3</option>
+      <option value="val4">Value 4</option></select></div> <div class="graph-wrapper" id="one"></div></div></li>
+      <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-two" class="menuchoice">Select series: <select>
+        <option value="val1">Value 1</option>
+        <option value="val2">Value 2</option>
+        <option value="val3">Value 3</option>
+        <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-2" id="two"></div></div></li>
+        <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-three" class="menuchoice">Select series: <select>
+          <option value="val1">Value 1</option>
+          <option value="val2">Value 2</option>
+          <option value="val3">Value 3</option>
+          <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-3" id="three"></div></div></li>
+          <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-four" class="menuchoice">Select series: <select>
+            <option value="val1">Value 1</option>
+            <option value="val2">Value 2</option>
+            <option value="val3">Value 3</option>
+            <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-4" id="four"></div></div></li>
+            <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-five" class="menuchoice">Select series: <select>
+              <option value="val1">Value 1</option>
+              <option value="val2">Value 2</option>
+              <option value="val3">Value 3</option>
+              <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-5" id="five"></div></div></li>
+              <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-six" class="menuchoice">Select series: <select>
+                <option value="val1">Value 1</option>
+                <option value="val2">Value 2</option>
+                <option value="val3">Value 3</option>
+                <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-6" id="six"></div></div></li>
+                <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-seven" class="menuchoice">Select series: <select>
+                  <option value="val1">Value 1</option>
+                  <option value="val2">Value 2</option>
+                  <option value="val3">Value 3</option>
+                  <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-7" id="seven"></div></div></li>
+                  <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-eight" class="menuchoice">Select series: <select>
+                    <option value="val1">Value 1</option>
+                    <option value="val2">Value 2</option>
+                    <option value="val3">Value 3</option>
+                    <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-8" id="eight"></div></div></li>
+                    <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-nine" class="menuchoice">Select series: <select>
+                      <option value="val1">Value 1</option>
+                      <option value="val2">Value 2</option>
+                      <option value="val3">Value 3</option>
+                      <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-9" id="nine"></div></div></li>
+                      <li><div id="user-wrapper"> <div id="summary-wrapper"><p id="menu-ten" class="menuchoice">Select series: <select>
+                        <option value="val1">Value 1</option>
+                        <option value="val2">Value 2</option>
+                        <option value="val3">Value 3</option>
+                        <option value="val4">Value 4</option></select></div> <div class="graph-wrapper-10" id="ten"></div></div></li>
+                      </ul>
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+                      <script type="text/javascript">
+
+                       
+    //relapses 1-11 days, 11-30, 30+
+    var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
+    var relapse_color = d3.scaleOrdinal().range(relapse_cols);
+    //defines a function to be used to append the title to the tooltip.  you can set how you want it to display here.
+    var maketip = function (d) {
+     var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
+     return tip;}
+
+    
+     var parseDate = d3.timeParse("%b %d, '%y");
+     var yObjs = {
+      "Engagment" : {column: "Engagment"},
+      "Diversity" : {column: "Diversity"},
+      "Daily_Message" : {column: "Daily_Message"},
+      "Relapses" : {column: "Relapses"}
+    }
+
+    var axisLabels = {xAxis: 'Time', yAxis: 'Usage'};
+
+    var xName = "Time";
+    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+
+    d3.json('/data/output.json', function(err, data){
+       data.forEach(function (d) {
+        d.Time = d.Time
+          switch(d.dCode){
+            case "RELAPSE_DURATION_1-10":
+              d.relapse = 1;
+              break;
+            case "RELAPSE_DURATION_11-30":
+              d.relapse = 2;
+              break;
+            case "RELAPSE_DURATION_30+":
+              d.relapse = 3;
+              break;
+            default:
+            d.relapse = 0;
+          }
+          d.Time = parseTime(d.Time);
+          d.Engagment = +d.Engagment;
+          d.Diversity = +d.aDiversity;
+          d.Daily_Message = +d.dailyMsg;
+
+         
+        })
+
+     var graphOne = createGraph(data, xName, yObjs, axisLabels);
+     graphOne.bind("#one");
+     graphOne.render();
+
+    });
+     // createGraph('data/output.json','.graph-wrapper-2');
+     // createGraph('data/output.json','.graph-wrapper-3');
+     // createGraph('data/output.json','.graph-wrapper-4');
+     // createGraph('data/output.json','.graph-wrapper-5');
+     // createGraph('data/output.json','.graph-wrapper-6');
+     // createGraph('data/output.json','.graph-wrapper-7');
+     // createGraph('data/output.json','.graph-wrapper-8');
+     // createGraph('data/output.json','.graph-wrapper-9');
+     // createGraph('data/output.json','.graph-wrapper-10');
+
+
+
+</script>
+</body>
 </html> 

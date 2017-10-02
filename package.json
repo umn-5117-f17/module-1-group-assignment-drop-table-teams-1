@@ -10,11 +10,17 @@
     "body-parser": "~1.17.1",
     "bulma": "^0.5.3",
     "cookie-parser": "~1.4.3",
+    "csv": "^1.1.1",
+    "csv-parser": "^1.11.0",
+    "csvtojson": "^1.1.7",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "fast-csv": "^2.4.1",
     "hbs": "~4.0.1",
     "heroku": "^0.2.0",
     "morgan": "~1.8.1",
+    "path": "^0.12.7",
+    "pipe": "^1.1.0",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {

@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 	console.log('Route viz test');
+	//console.log(req.data);
     res.render('viz', { title: 'Viz' });
     console.log('Route viz test');
    // res.send('viz test');

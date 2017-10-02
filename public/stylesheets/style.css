@@ -6,3 +6,215 @@ body {
 a {
   color: #00B7FF;
 }
+
+ul {
+list-style-type:none;
+}
+
+#user-wrapper {
+	position:relative;
+	margin: 5% auto 5% auto;
+	min-height: 250px;
+	overflow: hidden;
+
+}
+
+
+#summary-wrapper{
+	float: left;
+	min-height: 250px;
+	width:20%;
+	overflow: hidden;
+}
+
+.graph-wrapper{
+	float:right;
+	overflow: hidden;
+	min-height: 250px;
+	width:80%;
+}
+
+/*
+div.tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: 60px;                  
+  height: 28px;                 
+  padding: 2px;             
+  font: 12px sans-serif;        
+  background: lightsteelblue;   
+  border: 0px;      
+  border-radius: 8px;           
+  pointer-events: none;         
+}
+
+
+
+.axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+    
+    .x.axis path {
+      display: none;
+    }
+    
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+*/
+
+
+.tooltip {
+  background: #eee;
+  box-shadow: 0 0 5px #999999;
+  color: #333;
+  display: none;
+  font-size: 12px;
+  left: 130px;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  top: 95px;
+  width: 80px;
+  z-index: 10;
+}
+.axis { font: 14px sans-serif; }
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  shape-rendering: crispEdges;
+  stroke-width: 2px;
+}
+
+#dailyMsg_plot {
+  fill: none;
+  stroke: "#28d41c" !important;
+  shape-rendering: crispEdges;
+  stroke-width: 2px;
+}
+
+#diversity_plot {
+  fill: none;
+  stroke: "#7721d9" !important;
+  shape-rendering: crispEdges;
+  stroke-width: 2px;
+}
+
+
+.graph-wrapper {
+    max-width: 950px;
+    min-width: 304px;
+    margin: 0 auto;
+    background-color: #FAF7F7;
+}
+
+.graph-wrapper .inner-wrapper {
+    position: relative;
+    padding-bottom: 50%;
+    width: 100%;
+}
+
+.graph-wrapper .outer-box {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+}
+
+.graph-wrapper .inner-box {
+    width: 100%;
+    height: 100%;
+}
+
+.graph-wrapper text {
+  font-family: sans-serif;
+  font-size: 11px;
+}
+
+.graph-wrapper y-axis text {
+	transform: -65;
+}
+
+.graph-wrapper p {
+    font-size: 16px;
+    margin-top:5px;
+    margin-bottom: 40px;
+}
+
+.graph-wrapper .axis path,
+.graph-wrapper .axis line {
+    fill: none;
+    stroke: #1F1F2E;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+
+}
+.graph-wrapper .axis path {
+  stroke-width: 2px;
+}
+
+.graph-wrapper .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 5px;
+}
+
+.graph-wrapper .legend  {
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-size: 16px;
+    padding: 10px 40px;
+}
+.graph-wrapper .legend > div {
+    margin: 0px 25px 10px 0px;
+    flex-grow: 0;
+}
+.graph-wrapper .legend p {
+    display:inline;
+    font-size: 0.8em;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+.graph-wrapper .legend .series-marker {
+    height: 1em;
+    width: 1em;
+    border-radius: 35%;
+    background-color: crimson;
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: -0.16rem;
+}
+
+.graph-wrapper .overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+.graph-wrapper .focus circle {
+  fill: crimson;
+  stroke: crimson;
+  stroke-width: 2px;
+  fill-opacity: 15%;
+}
+.graph-wrapper .focus rect {
+    fill: lightblue;
+    opacity: 0.4;
+    border-radius: 2px;
+}
+.graph-wrapper .focus.line {
+    stroke: steelblue;
+    stroke-dasharray: 2,5;
+    stroke-width: 2;
+    opacity: 0.5;
+}
+@media (max-width:500px){
+    .graph-wrapper .line {stroke-width: 3px;}
+    .graph-wrapper .legend {font-size: 14px;}
+}
