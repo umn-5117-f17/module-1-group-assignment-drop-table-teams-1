@@ -1,5 +1,6 @@
 # Json Response Data
 **/data/output.json
+**/public/data/output.json
 
 # Logs
 logs
