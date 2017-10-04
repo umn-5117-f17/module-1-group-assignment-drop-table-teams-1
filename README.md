@@ -22,7 +22,7 @@ Please fill out all of the following sections to help us grade your submission:
 
 ## Link to Site
 
-<https://shrouded-hollows-89342.herokuapp.com/>
+<https://guarded-cove-45098.herokuapp.com/>
 
 
 ## Key Features
@@ -31,6 +31,7 @@ Please fill out all of the following sections to help us grade your submission:
 (one sentence per bullet, maximum 4 bullets):**
 
 * Finding similar app user data based on initial form entry.
+* D3 had a steep learning curve and was difficult to troubleshoot when creating multiple graphs.
 
 
 ## Screenshots of Site
@@ -38,7 +39,11 @@ Please fill out all of the following sections to help us grade your submission:
 **[Add a screenshot of each key page (maximum 4)](https://stackoverflow.com/questions/10189356/how-to-add-screenshot-to-readmes-in-github-repository)
 along with a very brief caption:**
 
-![](https://media.giphy.com/media/gJIJjrdhO5OYo/giphy.gif)
+* Form input for the app to find similar user experiences
+![](https://i.imgur.com/bTR0b4t.png)
+
+* Visualization page of similar users
+![](https://imgur.com/AgbQ7Cg.png)
 
 
 ## External Dependencies
