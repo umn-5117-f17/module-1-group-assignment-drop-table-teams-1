@@ -64,7 +64,9 @@ router.post('/computation', function(req, res, next) {
       var message = calculator(dailyMessagePeriod, dailyMessageFrequency, durationPeriod, durationFrequency);
       var step = calculator(twelveStepPeriod, twelveStepFrequency, durationPeriod, durationFrequency);
       var totalActions = meeting + support + progress + message + step;
-      var activeUseDays = totalActions;
+      console.log("totalActions " + totalActions);
+      var activeUseDays = meetingFrequency + supportFrequency + trackProgressFrequency + dailyMessageFrequency + twelveStepFrequency;
+      console.log("use days " + activeUseDays);
       var initialRelapse = 20;
       // if duration need to divide totalActions by duration to put in scope of user
       var uniqueActions = 5;
@@ -81,10 +83,12 @@ router.post('/computation', function(req, res, next) {
       }
 
       // How to find active use days?
-      var engagement = totalActions / activeUseDays;
+      var engagement = totalActions;
       var actionDiversity = uniqueActions / 5;
-      var dailyMessage = message / totalActions;
-
+      var dailyMessage = message / totalActions *50;
+      console.log("engagement " + engagement);
+      console.log("actionDiversity " + actionDiversity);
+      console.log("daily message " + dailyMessage);
       /*
         Sort into distance array smallest to largest. Placing user id and distance into array
       */
@@ -119,8 +123,9 @@ router.post('/computation', function(req, res, next) {
         };
       }
       //Bubble sort the array of distances
+      console.log("before bubble" + distance[1].distance);
       bubbleSort(distance);
-
+      console.log("after bubble" + distance[1].distance);
       /*
         take first 10 user id's from distance array and create users array that
         contains user info for those 10 users and send to visualization
@@ -139,7 +144,7 @@ router.post('/computation', function(req, res, next) {
           if(distance[i].id == userData[j][0]) {
             js = HazeldenData(userData[j][0], userData[j][1], userData[j][2], userData[j][3], userData[j][4], userData[j][5], userData[j][6]);
             users[i][count] = js;
-            console.log(js);
+            //console.log(js);
             count++;
           }
         }
@@ -159,12 +164,16 @@ router.post('/computation', function(req, res, next) {
         user9: users[8],
         user10: users[9],
       };
+
+      for(var i = 0; i<10; i++) {
+        console.log(distance[i].id);
+      }
       //res.render('viz', users);
 
         fs.writeFile(__dirname +'/../public/data/output.json', JSON.stringify(retObj));
 
-        res.render('viz');
-        //res.json(retObj);
+        //res.render('viz');
+        res.json(retObj);
         //res.send({redirect: '/viz'});
         });
       });
@@ -202,6 +211,10 @@ function bubbleSort(distance)
 }
 
 function calculator(period, frequency, durationPeriod, durationFrequency) {
+  // console.log("period " + period);
+  // console.log("frequency " + frequency);
+  // console.log("durationPeriod " + durationPeriod);
+  // console.log("durationFrequency " + durationFrequency);
   var perYear;
   switch(period) {
     case '365':
@@ -216,16 +229,16 @@ function calculator(period, frequency, durationPeriod, durationFrequency) {
   if(perYear == 0) {
     return 0;
   }
-
-  switch(durationPeriod) {
-    case '365':
-      return (perYear / 365) * durationFrequency;
-    case '52':
-      return (perYear / 52) * durationFrequency;
-    case '12':
-      return (perYear / 12) * durationFrequency;
-    case '1':
-      return perYear * durationFrequency;
-  }
+  return perYear * durationFrequency * durationPeriod;
+  // switch(durationPeriod) {
+  //   case '365':
+  //     return (perYear / 365) * durationFrequency;
+  //   case '52':
+  //     return (perYear / 52) * durationFrequency;
+  //   case '12':
+  //     return (perYear / 12) * durationFrequency;
+  //   case '1':
+  //     return perYear * durationFrequency;
+  // }
 }
 module.exports = router;
