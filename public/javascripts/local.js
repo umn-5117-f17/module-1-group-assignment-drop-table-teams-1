@@ -238,8 +238,7 @@ graphObj.bind = function (selector) {
 
     graphObj.render = function () {
         //Create SVG element
-        graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom));
-        graphObj.innerSvg = graphObj.svg.append("svg").attr("class", "innerSvg").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
+       graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
         // Draw Lines
         for (var y  in yObjs) {
           if(y == "Relapses"){
@@ -247,7 +246,7 @@ graphObj.bind = function (selector) {
           //standard approach
           //Relapse logic handled in line generator
           //if else statment left for debugging purposes
-           yObjs[y].path = graphObj.innerSvg.append("g")
+           yObjs[y].path = graphObj.svg.append("g")
             .selectAll("path")
             .data(graphObj.data)
             .enter()
@@ -269,19 +268,19 @@ graphObj.bind = function (selector) {
             .attr("data-series", y)
 
           } else{
-          yObjs[y].path = graphObj.innerSvg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
+          yObjs[y].path = graphObj.svg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
             focus.style("display", null);
           }).on("mouseout", function () {
             focus.transition().delay(700).style("display", "none");
           }).on("mousemove", mousemove);
         }}
         // Draw Axis
-        graphObj.innerSvg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
+        graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
 
-        graphObj.innerSvg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
+        graphObj.svg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
 
         //Draw tooltips
-        var focus = graphObj.innerSvg.append("g").attr("class", "focus").style("display", "none");
+        var focus = graphObj.svg.append("g").attr("class", "focus").style("display", "none");
 
         for (var y  in yObjs) {
           yObjs[y].tooltip = focus.append("g");
@@ -305,7 +304,7 @@ graphObj.bind = function (selector) {
         }
 
         // Overlay to capture hover
-        graphObj.innerSvg.append("rect").attr("class", "overlay").attr("width", graphObj.width).attr("height", graphObj.height).on("mouseover", function () {
+        graphObj.svg.append("rect").attr("class", "overlay").attr("width", graphObj.width).attr("height", graphObj.height).on("mouseover", function () {
           focus.style("display", null);
         }).on("mouseout", function () {
           focus.style("display", "none");
