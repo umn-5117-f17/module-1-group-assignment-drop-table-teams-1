@@ -157,7 +157,7 @@ router.post('/computation', function(req, res, next) {
       };
       //res.render('viz', users);
 
-        fs.writeFile(__dirname +'/../data/output.json', JSON.stringify(retObj));
+        fs.writeFile(__dirname +'/../public/data/output.json', JSON.stringify(retObj));
         res.json(retObj);
         });
       });
