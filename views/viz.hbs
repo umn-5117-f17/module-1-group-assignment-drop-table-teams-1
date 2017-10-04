@@ -124,6 +124,9 @@
           d.Engagment = +d.Engagment;
           d.Diversity = +d.aDiversity;
           d.Daily_Message = +d.dailyMsg;
+          d.relapse = d.relapse / 3;
+          d.Relapses = d.relapse;
+
 
          
         })
@@ -131,6 +134,8 @@
      var graphOne = createGraph(data, xName, yObjs, axisLabels);
      graphOne.bind("#one");
      graphOne.render();
+
+
 
     });
      // createGraph('data/output.json','.graph-wrapper-2');

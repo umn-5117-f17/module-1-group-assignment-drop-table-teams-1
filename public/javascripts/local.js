@@ -16,7 +16,18 @@ $(function(){
   function createGraph(dataset, xName, yObjs, axisLables){
     var color = d3.scaleOrdinal(d3.schemeCategory10);
     var graphObj = {};
+    var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
+    graphObj.relapse_cols = d3.scaleOrdinal().range(relapse_cols);
     graphObj.data = dataset;
+    graphObj.relapse_data = [];
+    graphObj.data.forEach(function(d){
+      if(d.relapse != 0){
+        var x = d;
+        d.y = 1;
+        graphObj.relapse_data.push(x);
+
+    }
+    });
 
     graphObj.xAxisLable = axisLables.xAxis;
     graphObj.yAxisLable = axisLables.yAxis;
@@ -51,6 +62,7 @@ $(function(){
     for (var y  in yObjs) {
       yObjs[y].name = y;
         yObjs[y].yFunct = getYFn(yObjs[y].column); //Need this  list for the ymax function
+        console.log("yFunct check "+yObjs[y].yFunct);
         graphObj.yFuncts.push(yObjs[y].yFunct);
       }
 
@@ -92,17 +104,22 @@ graphObj.yScale = d3.scaleLinear().range([graphObj.height, 0]).domain([0, d3.max
     // Build line building functions
     function getYScaleFn(yObj) {
       return function (d) {
+        console.log("yScale check "+graphObj.yScale(yObjs[yObj].yFunct(d)));
         return graphObj.yScale(yObjs[yObj].yFunct(d));
       };
     }
 
-    //add relapses logic 
     for (var yObj in yObjs) {
-      yObjs[yObj].line = d3.line().x(function (d) {
-        return graphObj.xScale(graphObj.xFunct(d));
-      }).y(getYScaleFn(yObj)).curve(d3.curveBasis);
-    }
-    
+     if (yObj == "Relapses"){
+      yObjs[yObj].line = d3.line().defined(function(d){ return d.relapse > 0;})
+                                         .x(function (d) {
+                                           return graphObj.xScale(graphObj.xFunct(d));})
+                                         .y(getYScaleFn(yObj)).curve(d3.curveStep);
+      }else{
+        yObjs[yObj].line = d3.line().x(function (d) {
+          return graphObj.xScale(graphObj.xFunct(d));
+        }).y(getYScaleFn(yObj)).curve(d3.curveBasis);
+      }}
 
     graphObj.svg;
     
@@ -155,19 +172,34 @@ graphObj.bind = function (selector) {
     graphObj.render = function () {
         //Create SVG element
         graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
-          console.log("pre for loop")
         // Draw Lines
-        // 
-        // add relapse logic
         for (var y  in yObjs) {
-          console.log("draw y check : " + y);
           if(y == "Relapses"){
-            console.log("I am a relapse");
-            yObjs[y].path = graphObj.svg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
-            focus.style("display", null);
-          }).on("mouseout", function () {
-            focus.transition().delay(700).style("display", "none");
-          }).on("mousemove", mousemove);
+
+          //standard approach
+          //Relapse logic handled in line generator
+          //if else statment left for debugging purposes
+           yObjs[y].path = graphObj.svg.append("g")
+            .selectAll("path")
+            .data(graphObj.data)
+            .enter()
+            .append("line")
+            .attr("class", "line")
+            .attr("x1", function(d, i){
+              return graphObj.xScale(graphObj.xFunct(d))
+            })
+            .attr("y1", graphObj.height)
+            .attr("x2", function(d, i){
+              return graphObj.xScale(graphObj.xFunct(d))
+            })
+            .attr("y2", function(d){
+              console.log(d.relapse)
+              return graphObj.yScale(yObjs[yObj].yFunct(d))
+            })
+            .style("stroke-width", "5px")
+            .style("stroke", color(y))
+            .attr("data-series", y)
+
           } else{
           yObjs[y].path = graphObj.svg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
             focus.style("display", null);
@@ -175,7 +207,6 @@ graphObj.bind = function (selector) {
             focus.transition().delay(700).style("display", "none");
           }).on("mousemove", mousemove);
         }}
-        console.log("post for loop")
         // Draw Axis
         graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
 
@@ -214,19 +245,21 @@ graphObj.bind = function (selector) {
 
         return graphObj;
         function mousemove() {
+          //this is wht the NAN error is happening
           var x0 = graphObj.xScale.invert(d3.mouse(this)[0]), i = graphObj.bisectYear(dataset, x0, 1), d0 = graphObj.data[i - 1], d1 = graphObj.data[i];
           try {
             var d = x0 - graphObj.xFunct(d0) > graphObj.xFunct(d1) - x0 ? d1 : d0;
           } catch (e) { return;}
           minY = graphObj.height;
           for (var y  in yObjs) {
+        //    console.log("tooltip y check "+ y);
             yObjs[y].tooltip.attr("transform", "translate(" + graphObj.xScale(graphObj.xFunct(d)) + "," + graphObj.yScale(yObjs[y].yFunct(d)) + ")");
             yObjs[y].tooltip.select("text").text(graphObj.yFormatter(yObjs[y].yFunct(d)));
             minY = Math.min(minY, graphObj.yScale(yObjs[y].yFunct(d)));
           }
-
+          //console.log(minY);
           focus.select(".focus.line").attr("transform", "translate(" + graphObj.xScale(graphObj.xFunct(d)) + ")").attr("y1", minY);
-          focus.select(".focus.year").text("Year: " + graphObj.xFormatter(graphObj.xFunct(d)));
+          focus.select(".focus.year").text("Date: " + graphObj.xFormatter(graphObj.xFunct(d)));
         }
 
       };

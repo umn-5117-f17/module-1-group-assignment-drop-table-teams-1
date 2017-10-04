@@ -17,7 +17,7 @@ path = require("path")
             this.dailyMessage = Fseven;
             var obj =  {"ID":this.AppID, "Time": this.Timestamp, "dName":this.DataName, "dCode":this.DataCode, "Engagment": this.UserEngagment, "aDiversity": this.actionDiversity, "dailyMsg": this.dailyMessage}
             return obj;
-}e
+}
 
 
 
