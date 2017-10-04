@@ -6,10 +6,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="./javascripts/local.js"></script>
   <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
 </head>
 <body>
- <h1>Below are the most similar recovery histories to you. </h1>
- <h2> Remember to take each day one at a time, and breath!</h2>
+ <div class="content">
+   <h1>Below are the most similar recovery histories to you. </h1>
+   <h2> Remember to take each day one at a time, and breath!</h2>
+</div>
 
 
 
@@ -46,10 +50,7 @@
     var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
     var relapse_color = d3.scaleOrdinal().range(relapse_cols);
     //defines a function to be used to append the title to the tooltip.  you can set how you want it to display here.
-    var maketip = function (d) {
-     var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
-     return tip;}
-
+  
 
      var parseDate = d3.timeParse("%b %d, '%y");
      var yObjs = {
@@ -75,6 +76,8 @@
       var user5= data.user5;
       var user6= data.user6;
       var user7= data.user7;
+
+      console.log("seven check "+user7);
       var user8= data.user8;
       var user9= data.user9;
       var user10= data.user10;
@@ -84,16 +87,16 @@
 
 
 
-     var graphOne = createGraph(user1, xName, yObjs, axisLabels);
-     var graphTwo = createGraph(user2, xName, yObjs, axisLabels);
-     var graphThree= createGraph(user3, xName, yObjs, axisLabels);
-     var graphFour = createGraph(user4, xName, yObjs, axisLabels);
-     var graphFive = createGraph(user5, xName, yObjs, axisLabels);
-     var graphSix = createGraph(user6, xName, yObjs, axisLabels);
-     var graphSeven = createGraph(user7, xName, yObjs, axisLabels);
-     var graphEight = createGraph(user8, xName, yObjs, axisLabels);
-     var graphNine = createGraph(user9, xName, yObjs, axisLabels);
-     var graphTen = createGraph(user10, xName, yObjs, axisLabels);
+     var graphOne = createGraph(user1, xName, yObjs, axisLabels, sims[0]);
+     var graphTwo = createGraph(user2, xName, yObjs, axisLabels, sims[1]);
+     var graphThree= createGraph(user3, xName, yObjs, axisLabels, sims[2]);
+     var graphFour = createGraph(user4, xName, yObjs, axisLabels, sims[3]);
+     var graphFive = createGraph(user5, xName, yObjs, axisLabels, sims[4]);
+     var graphSix = createGraph(user6, xName, yObjs, axisLabels, sims[5]);
+     var graphSeven = createGraph(user7, xName, yObjs, axisLabels, sims[6]);
+     var graphEight = createGraph(user8, xName, yObjs, axisLabels, sims[7]);
+     var graphNine = createGraph(user9, xName, yObjs, axisLabels, sims[8]);
+     var graphTen = createGraph(user10, xName, yObjs, axisLabels,sims[9]);
 
      graphOne.bind("#one");
      graphTwo.bind("#two");

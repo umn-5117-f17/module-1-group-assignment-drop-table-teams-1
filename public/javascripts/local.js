@@ -25,7 +25,8 @@
      $.post('/computation',jdata, function(rsp) {
        response = rsp;
        console.log(response);
-       window.location = window.location.href+"viz";
+       window.location.href = window.location+"viz";
+
      });
      //$.res(){window.location = window.location.href+"viz"};
 
@@ -45,9 +46,22 @@
     //e.preventDefault();
   //});
 
+function daysBetween( date1, date2 ) {
+  //Get 1 day in milliseconds
+  var one_day=1000*60*60*24;
 
+  // Convert both dates to milliseconds
+  var date1_ms = date1.getTime();
+  var date2_ms = date2.getTime();
 
-  function createGraph(dataset, xName, yObjs, axisLables){
+  // Calculate the difference in milliseconds
+  var difference_ms = date2_ms - date1_ms;
+    
+  // Convert back to days and return
+  return Math.round(difference_ms/one_day); 
+}
+
+  function createGraph(dataset, xName, yObjs, axisLables, similarity){
     var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
     var arrayData = [];
     var tmpArr = []
@@ -86,16 +100,20 @@
     graphObj.relapse_cols = d3.scaleOrdinal().range(relapse_cols);
     graphObj.data = tmpArr;
     graphObj.relapse_data = [];
+    var rel_count = 0;
     graphObj.data.forEach(function(d){
       if(d.relapse != 0){
         var x = d;
         d.y = 1;
+        rel_count++;
         graphObj.relapse_data.push(x);
 
     }
     });
-    console.log("sanity check"+graphObj.data);
-      console.log("sanity check dos"+Object.values(graphObj.data));
+    var last_index = arrayData.length;
+    var Use_Period = daysBetween(arrayData[0], arrayData[last_index -1]);
+    var summaryStats = { "Total_relapses": rel_count , "Similarity" : similarity, "Use_Length": Use_Period };
+    graphObj.summaryStats = summaryStats;
     graphObj.xAxisLable = axisLables.xAxis;
     graphObj.yAxisLable = axisLables.yAxis;
     var marigin = {top: 30,
@@ -152,7 +170,7 @@
      graphObj.bisectYear = d3.bisector(graphObj.xFunct).left; //< Can be overridden in definition
 
 //Create scale functions
-    graphObj.xScale = d3.scaleTime().range([0, graphObj.width]).domain(d3.extent(arrayData)); //< Can be overridden in definition
+    graphObj.xScale = d3.scaleTime().range([0, graphObj.width]).domain(d3.extent(arrayData, function(d){ console.log(d); return d})); //< Can be overridden in definition
 
 // Get the max of every yFunct
 graphObj.max = function (fn) {
@@ -177,16 +195,38 @@ graphObj.yScale = d3.scaleLinear().range([graphObj.height, 0]).domain([0, d3.max
     }
 
     for (var yObj in yObjs) {
-     if (yObj == "Relapses"){
+      switch(yObj){
+        case "Relapses":
       yObjs[yObj].line = d3.line().defined(function(d){ return d.relapse > 0;})
                                          .x(function (d) {
                                            return graphObj.xScale(graphObj.xFunct(d));})
                                          .y(getYScaleFn(yObj)).curve(d3.curveStep);
-      }else{
+        break;
+        case "Engagment":
+        yObjs[yObj].line = d3.line().defined(function(d){ return d.Engagment >= 0;})
+                                         .x(function (d) {
+                                           return graphObj.xScale(graphObj.xFunct(d));})
+                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
+        break;
+        case "Diversity":
+        yObjs[yObj].line = d3.line().defined(function(d){ return d.Diversity >= 0;})
+                                         .x(function (d) {
+                                           return graphObj.xScale(graphObj.xFunct(d));})
+                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
+        break;
+        case "Daily_Message":
+        yObjs[yObj].line = d3.line().defined(function(d){ return d.Daily_Message >= 0;})
+                                         .x(function (d) {
+                                           return graphObj.xScale(graphObj.xFunct(d));})
+                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
+        break;
+
+        default:
         yObjs[yObj].line = d3.line().x(function (d) {
           return graphObj.xScale(graphObj.xFunct(d));
         }).y(getYScaleFn(yObj)).curve(d3.curveBasis);
       }}
+
 
     graphObj.svg;
 
@@ -222,12 +262,51 @@ graphObj.update_svg_size = function () {
   graphObj.graphDiv.select('svg').attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom));
 
   graphObj.svg.select(".overlay").attr("width", graphObj.width).attr("height", graphObj.height);
+  graphObj.summaryDiv.style("width", graphObj.width).style("height", graphObj.height);
   return graphObj;
 };
 
 graphObj.bind = function (selector) {
   graphObj.mainDiv = d3.select(selector);
         // Add all the divs to make it centered and responsive
+        var summarySelector;
+        switch(selector){
+          case "#one":
+           summarySelector = "#1";
+           break;
+        case "#two" :
+          summarySelector = "#2";
+          break;
+        case "#three":
+          summarySelector = "#3";
+          break;
+        case "#four":
+         summarySelector ="#4"
+         break;
+        case "#five":
+        summarySelector = "#5";
+        break;
+        case "#six":
+        summarySelector = "#6";
+        case "#seven":
+        summarySelector = "#7";
+        break;
+        case "#eight":
+        summarySelector = "#8";
+        break;
+        case "#nine":
+        summarySelector = "#9";
+        break;
+        case "#ten":
+        summarySelector = "#10";
+        break;
+}
+        if(summarySelector == "#7"){
+            $(summarySelector).html("<div class='content'><p id='rel_count'>Total Relapses Reported: "+graphObj.summaryStats.Total_relapses+"</p> <p>Total Days of App Usage: "+graphObj.summaryStats.Use_Length+"</p></div>");
+        }else{
+           $(summarySelector).append("<div class='content'><p id='rel_count'>Total Relapses Reported: "+graphObj.summaryStats.Total_relapses+"</p> <p>Total Days of App Usage: "+graphObj.summaryStats.Use_Length+"</p></div>");
+        }
+       
         graphObj.mainDiv.append("div").attr("class", "inner-wrapper").append("div").attr("class", "outer-box").append("div").attr("class", "inner-box");
         graphSelector = selector + " .inner-box";
         graphObj.graphDiv = d3.select(graphSelector);
@@ -238,6 +317,8 @@ graphObj.bind = function (selector) {
 
     graphObj.render = function () {
         //Create SVG element
+        //
+        // summary info
        graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
         // Draw Lines
         for (var y  in yObjs) {
@@ -275,10 +356,9 @@ graphObj.bind = function (selector) {
           }).on("mousemove", mousemove);
         }}
         // Draw Axis
-        graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
+         graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").selectAll("text").attr("transform", function(d){ return "rotate(-65)"}).attr("class", "label").attr("dx", "-.8em" ).attr("dy", ".15em" ).style("text-anchor", "end").text(graphObj.xAxisLable);
 
         graphObj.svg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
-
         //Draw tooltips
         var focus = graphObj.svg.append("g").attr("class", "focus").style("display", "none");
 

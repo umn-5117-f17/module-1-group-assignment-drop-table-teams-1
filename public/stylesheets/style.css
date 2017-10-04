@@ -19,6 +19,9 @@ list-style-type:none;
 
 }
 
+#rel_count{
+  color:red;
+}
 
 #summary-wrapper{
 	float: left;
@@ -26,7 +29,9 @@ list-style-type:none;
 	width:20%;
 	overflow: hidden;
 }
-
+#summary-wrapper >p {
+  text-align: center;
+}
 .graph-wrapper{
 	float:right;
 	overflow: hidden;
@@ -34,6 +39,10 @@ list-style-type:none;
 	width:80%;
 }
 
+
+.x.axis > tick >text {
+  transform : rotate(-65);
+}
 /*
 div.tooltip {   
   position: absolute;           
@@ -93,21 +102,21 @@ div.tooltip {
   stroke-width: 2px;
 }
 
-#dailyMsg_plot {
-  fill: none;
-  stroke: "#28d41c" !important;
-  shape-rendering: crispEdges;
-  stroke-width: 2px;
+#user-wrapper > div{
+  float:left;
+  margin:10px;
 }
 
-#diversity_plot {
-  fill: none;
-  stroke: "#7721d9" !important;
-  shape-rendering: crispEdges;
-  stroke-width: 2px;
+.summary-wrapper {
+    max-width: 950px;
+    min-width: 304px;
+    min-height: 250px;
+    margin: 0 auto;
 }
 
+.summary-wrapper > p{
 
+}
 .graph-wrapper {
     max-width: 950px;
     min-width: 304px;
@@ -161,7 +170,7 @@ div.tooltip {
 .graph-wrapper .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 5px;
+  stroke-width: 2px;
 }
 
 .graph-wrapper .legend  {
