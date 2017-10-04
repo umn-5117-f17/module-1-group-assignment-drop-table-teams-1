@@ -30,7 +30,7 @@ Please fill out all of the following sections to help us grade your submission:
 **Describe the most challenging features you implemented
 (one sentence per bullet, maximum 4 bullets):**
 
-* ...
+* Finding similar app user data based on initial form entry.
 
 
 ## Screenshots of Site
@@ -47,7 +47,7 @@ along with a very brief caption:**
 Please do not document required libraries (e.g., Express, Bulma).**
 
 * Library or service name: description of use
-* ...
+* D3 Javascript Library: used to generate dynamic graphs on our visualization page.
 
 **If there's anything else you would like to disclose about how your project
 relied on external code, expertise, or anything else, please disclose that
@@ -63,5 +63,4 @@ that would be necessary (or helpful) for us to test your application, please
 link to them here.  For example, if your project parses gzipped apache logs,
 provide a few gzipped apache logs here.
 
-* link to file
-* ...
+* Test Data can be any data submitted via the initial form.

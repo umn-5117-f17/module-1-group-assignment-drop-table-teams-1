@@ -1,4 +1,5 @@
 $(function() {
+      var response = null;
   $('#btn').click(function(e) {
     // console.log('click!');
     var form = $('#theForm')[0];
@@ -20,20 +21,10 @@ $(function() {
       "relapsePeriod"       : form[12].value,
       "relapse"             : form[13].value,
     }
-    // console.log(data);
-    /*$.ajax({
-      url: '/viz',
-      data: jdata,
-      processData: false,
-      contentType: false,
-      type: 'POST',
-      success: function(data) {
-        $('#body').html(JSON.stringify(data));
-      }
-    });
-    */
+
     $.post('/computation',jdata, function(rsp) {
-      console.log(rsp.userSim);
+      response = rsp;
+      console.log(response);
     });
   });
 });

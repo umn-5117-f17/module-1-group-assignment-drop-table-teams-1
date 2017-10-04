@@ -156,7 +156,9 @@ router.post('/computation', function(req, res, next) {
         user10: users[9],
       };
       //res.render('viz', users);
-      res.json(retObj);
+
+        fs.writeFile(__dirname +'/../data/output.json', JSON.stringify(retObj));
+        res.json(retObj);
         });
       });
 });
