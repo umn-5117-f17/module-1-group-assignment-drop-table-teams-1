@@ -25,7 +25,12 @@
      $.post('/computation',jdata, function(rsp) {
        response = rsp;
        console.log(response);
+       window.location = window.location.href+"viz";
      });
+     //$.res(){window.location = window.location.href+"viz"};
+
+    // $.get('/viz');
+
    });
  });
 
@@ -40,12 +45,46 @@
     //e.preventDefault();
   //});
 
+
+
   function createGraph(dataset, xName, yObjs, axisLables){
+    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+    var arrayData = [];
+    var tmpArr = []
+    dataset.forEach(function (d) {
+      d.Time = d.Time;
+        switch(d.dCode){
+          case "RELAPSE_DURATION_1-10":
+            d.relapse = 1;
+            break;
+          case "RELAPSE_DURATION_11-30":
+            d.relapse = 2;
+            break;
+          case "RELAPSE_DURATION_30+":
+            d.relapse = 3;
+            break;
+          default:
+          d.relapse = 0;
+        }
+        d.Time = parseTime(d.Time);
+        d.Engagment = +d.Engagment;
+        d.Diversity = +d.aDiversity;
+        d.Daily_Message = +d.dailyMsg;
+        d.relapse = d.relapse / 3;
+        d.Relapses = d.relapse;
+        arrayData.push(d.Time);
+        tmpArr.push(d);
+        if(d.Engagment < 0 | d.Diversity < 0 | d.Daily_Message < 0){
+          console.log(Object.keys(d));
+          console.log(Object.values(d));
+        }
+
+      });
     var color = d3.scaleOrdinal(d3.schemeCategory10);
     var graphObj = {};
     var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
     graphObj.relapse_cols = d3.scaleOrdinal().range(relapse_cols);
-    graphObj.data = dataset;
+    graphObj.data = tmpArr;
     graphObj.relapse_data = [];
     graphObj.data.forEach(function(d){
       if(d.relapse != 0){
@@ -55,7 +94,8 @@
 
     }
     });
-
+    console.log("sanity check"+graphObj.data);
+      console.log("sanity check dos"+Object.values(graphObj.data));
     graphObj.xAxisLable = axisLables.xAxis;
     graphObj.yAxisLable = axisLables.yAxis;
     var marigin = {top: 30,
@@ -70,7 +110,7 @@
       var height = 300 - marigin.top - marigin.bottom;
       graphObj.height = height;
 
-      var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
+
 
 
 
@@ -89,7 +129,7 @@
     for (var y  in yObjs) {
       yObjs[y].name = y;
         yObjs[y].yFunct = getYFn(yObjs[y].column); //Need this  list for the ymax function
-        console.log("yFunct check "+yObjs[y].yFunct);
+      //  console.log("yFunct check "+yObjs[y].yFunct);
         graphObj.yFuncts.push(yObjs[y].yFunct);
       }
 
@@ -112,7 +152,7 @@
      graphObj.bisectYear = d3.bisector(graphObj.xFunct).left; //< Can be overridden in definition
 
 //Create scale functions
-    graphObj.xScale = d3.scaleTime().range([0, graphObj.width]).domain(d3.extent(graphObj.data, graphObj.xFunct)); //< Can be overridden in definition
+    graphObj.xScale = d3.scaleTime().range([0, graphObj.width]).domain(d3.extent(arrayData)); //< Can be overridden in definition
 
 // Get the max of every yFunct
 graphObj.max = function (fn) {
@@ -131,7 +171,7 @@ graphObj.yScale = d3.scaleLinear().range([graphObj.height, 0]).domain([0, d3.max
     // Build line building functions
     function getYScaleFn(yObj) {
       return function (d) {
-        console.log("yScale check "+graphObj.yScale(yObjs[yObj].yFunct(d)));
+      //  console.log("yScale check "+graphObj.yScale(yObjs[yObj].yFunct(d)));
         return graphObj.yScale(yObjs[yObj].yFunct(d));
       };
     }
@@ -198,7 +238,8 @@ graphObj.bind = function (selector) {
 
     graphObj.render = function () {
         //Create SVG element
-        graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
+        graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom));
+        graphObj.innerSvg = graphObj.svg.append("svg").attr("class", "innerSvg").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
         // Draw Lines
         for (var y  in yObjs) {
           if(y == "Relapses"){
@@ -206,7 +247,7 @@ graphObj.bind = function (selector) {
           //standard approach
           //Relapse logic handled in line generator
           //if else statment left for debugging purposes
-           yObjs[y].path = graphObj.svg.append("g")
+           yObjs[y].path = graphObj.innerSvg.append("g")
             .selectAll("path")
             .data(graphObj.data)
             .enter()
@@ -220,7 +261,7 @@ graphObj.bind = function (selector) {
               return graphObj.xScale(graphObj.xFunct(d))
             })
             .attr("y2", function(d){
-              console.log(d.relapse)
+            //  console.log(d.relapse)
               return graphObj.yScale(yObjs[yObj].yFunct(d))
             })
             .style("stroke-width", "5px")
@@ -228,19 +269,19 @@ graphObj.bind = function (selector) {
             .attr("data-series", y)
 
           } else{
-          yObjs[y].path = graphObj.svg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
+          yObjs[y].path = graphObj.innerSvg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
             focus.style("display", null);
           }).on("mouseout", function () {
             focus.transition().delay(700).style("display", "none");
           }).on("mousemove", mousemove);
         }}
         // Draw Axis
-        graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
+        graphObj.innerSvg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").attr("class", "label").attr("x", graphObj.width / 2).attr("y", 30).style("text-anchor", "middle").text(graphObj.xAxisLable);
 
-        graphObj.svg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
+        graphObj.innerSvg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
 
         //Draw tooltips
-        var focus = graphObj.svg.append("g").attr("class", "focus").style("display", "none");
+        var focus = graphObj.innerSvg.append("g").attr("class", "focus").style("display", "none");
 
         for (var y  in yObjs) {
           yObjs[y].tooltip = focus.append("g");
@@ -264,7 +305,7 @@ graphObj.bind = function (selector) {
         }
 
         // Overlay to capture hover
-        graphObj.svg.append("rect").attr("class", "overlay").attr("width", graphObj.width).attr("height", graphObj.height).on("mouseover", function () {
+        graphObj.innerSvg.append("rect").attr("class", "overlay").attr("width", graphObj.width).attr("height", graphObj.height).on("mouseover", function () {
           focus.style("display", null);
         }).on("mouseout", function () {
           focus.style("display", "none");

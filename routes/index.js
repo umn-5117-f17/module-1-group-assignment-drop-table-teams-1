@@ -9,6 +9,10 @@ router.get('/', function(req, res, next) {
   res.render('index');
 });
 
+router.get('/viz', function(req, res, next) {
+  console.log("HELLLLLLLLLLLOO");
+  res.render('viz');
+});
 router.post('/computation', function(req, res, next) {
   console.log("in the computation post");
   //console.log(req.body);
@@ -135,7 +139,7 @@ router.post('/computation', function(req, res, next) {
           if(distance[i].id == userData[j][0]) {
             js = HazeldenData(userData[j][0], userData[j][1], userData[j][2], userData[j][3], userData[j][4], userData[j][5], userData[j][6]);
             users[i][count] = js;
-            //console.log(js);
+            console.log(js);
             count++;
           }
         }
@@ -158,10 +162,15 @@ router.post('/computation', function(req, res, next) {
       //res.render('viz', users);
 
         fs.writeFile(__dirname +'/../public/data/output.json', JSON.stringify(retObj));
-        res.json(retObj);
+
+        res.render('viz');
+        //res.json(retObj);
+        //res.send({redirect: '/viz'});
         });
       });
 });
+
+
 
 function HazeldenData(Fone,Ftwo, Fthree, Ffour, Ffive, Fsix, Fseven){
           this.AppID = Fone;
