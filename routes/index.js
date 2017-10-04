@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/viz', function(req, res, next) {
-  console.log("HELLLLLLLLLLLOO");
+  //console.log("HELLLLLLLLLLLOO");
   res.render('viz');
 });
 router.post('/computation', function(req, res, next) {

@@ -1,19 +1,10 @@
 <div id="body">
-  <h1>Welcome to the Hazelden Data Exploration App!</h1>
-  <!-- <div class=columns>
-    <div class="column">
-    First column
-    </div>
-    <div class="column">
-      Second column
-    </div>
-    <div class="column">
-      Third column
-    </div>
-  </div> -->
-  <p>Please comeplete the form below to discover users similar to yourself!</p>
+  <div class="content">
+    <h1>Welcome to the Hazelden Data Exploration App!</h1>
+    <h3>Please complete the form below to discover users similar to yourself!</h3>
+  </div>
   <form id="theForm" enctype="application/x-www-form-urlencoded">
-    <p class="label">How long have you been involved in a 12 step recoverty program?</p>
+    <p class="label">How long have you been involved in a 12 step recovery program?</p>
     <table>
       <tr>
         <td>Period</td>
@@ -22,10 +13,10 @@
       <tr>
         <td>
           <select class = "select" name="durationPeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+            <option value=365>Days</option>
+            <option value=52>Weeks</option>
+            <option value=12>Months</option>
+            <option value=1>Years</option>
           </select>
         </td>
         <td>
@@ -53,7 +44,7 @@
         </td>
       </tr>
     </table>
-    <p class="label" >How often do you seek support during your recoverty process?</p>
+    <p class="label" >How often do you seek support during your recovery process?</p>
     <table>
       <tr>
         <td>Period</td>
@@ -148,10 +139,10 @@
       <tr>
         <td>
           <select class = "select" name="relapsePeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+            <option value=365>Days</option>
+            <option value=52>Weeks</option>
+            <option value=12>Months</option>
+            <option value=1>Years</option>
           </select>
         </td>
         <td>
@@ -160,7 +151,6 @@
       </tr>
     </table>
     <p></p>
-    <!-- <input type="button" value="Submit" id="theAjaxButton"> -->
     <button class ="button" type="button" id="btn">Visualize Data</button>
   </form>
 </div>
