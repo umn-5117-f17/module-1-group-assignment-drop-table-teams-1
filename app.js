@@ -4,16 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var parse = require('csv');
-var csvf = require("fast-csv");
-var fs = require('fs')
-var csv = require("csvtojson");
+var multer = require('multer'); // v1.0.5
+var upload = multer(); // for parsing multipart/form-data
+var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 var index = require('./routes/index');
 var users = require('./routes/users');
 var viz = require('./routes/viz');
 var data = require('./routes/data');
 
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,6 +1,33 @@
-$(function(){
- // console.log(Data)
-});
+ $(function() {
+       var response = null;
+   $('#btn').click(function(e) {
+     // console.log('click!');
+     var form = $('#theForm')[0];
+     var jdata = {
+       //The format for this data is as follows
+       //question name/tag : [period, frequency]
+       "durationPeriod"      : form[0].value,
+       "duration"            : form[1].value,
+       "meetingPeriod"       : form[2].value,
+       "meeting"             : form[3].value,
+       "supportPeriod"       : form[4].value,
+       "support"             : form[5].value,
+       "trackProgressPeriod" : form[6].value,
+       "trackProgress"       : form[7].value,
+       "messagePeriod"       : form[8].value,
+       "message"             : form[9].value,
+       "twelveStepPeriod"    : form[10].value,
+       "twelveStep"          : form[11].value,
+       "relapsePeriod"       : form[12].value,
+       "relapse"             : form[13].value,
+     }
+
+     $.post('/computation',jdata, function(rsp) {
+       response = rsp;
+       console.log(response);
+     });
+   });
+ });
 
 //$(function() {
   // $('#theinputfield').change(function() {
@@ -33,7 +60,7 @@ $(function(){
     graphObj.yAxisLable = axisLables.yAxis;
     var marigin = {top: 30,
       right: 20,
-      bottom: 30, 
+      bottom: 30,
       left: 50};
 
       graphObj.marigin = marigin;
@@ -76,7 +103,7 @@ $(function(){
         } else {
           return d3.format(".0f")(d);
         }
-        
+
       };
 
       graphObj.xFormatter = graphObj.formatAsTime;
@@ -122,7 +149,7 @@ graphObj.yScale = d3.scaleLinear().range([graphObj.height, 0]).domain([0, d3.max
       }}
 
     graphObj.svg;
-    
+
 // Change graph size according to window size
 
 graphObj.update_svg_size = function () {
@@ -355,7 +382,7 @@ graphObj.bind = function (selector) {
 //       .attr("transform", "translate(0," + height + ")")
 //       .call(d3.axisBottom(x)
 //               .tickFormat(d3.timeFormat("%y")))
-//       .selectAll("text")  
+//       .selectAll("text")
 //         .style("text-anchor", "end")
 //         .attr("dx", "-.8em")
 //         .attr("dy", ".15em")

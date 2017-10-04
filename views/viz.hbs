@@ -13,7 +13,7 @@
  <div id="container">
   <p id="headline" class="hed"></p>
   <p class="dek"></p>
-  <p class="dek"></p> 
+  <p class="dek"></p>
 </div>
 
 <p id="main-menu" class="menuchoice">Sort By: <select>
@@ -81,7 +81,7 @@
 
                       <script type="text/javascript">
 
-                       
+
     //relapses 1-11 days, 11-30, 30+
     var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
     var relapse_color = d3.scaleOrdinal().range(relapse_cols);
@@ -90,7 +90,7 @@
      var tip = '<p class="tip3">' + d.name + '<p class="tip1">' + NumbType(d.value) + '</p> <p class="tip3">'+  formatDate(d.date)+'</p>';
      return tip;}
 
-    
+
      var parseDate = d3.timeParse("%b %d, '%y");
      var yObjs = {
       "Engagment" : {column: "Engagment"},
@@ -128,7 +128,7 @@
           d.Relapses = d.relapse;
 
 
-         
+
         })
 
      var graphOne = createGraph(data, xName, yObjs, axisLabels);
@@ -152,4 +152,4 @@
 
 </script>
 </body>
-</html> 
+</html>
