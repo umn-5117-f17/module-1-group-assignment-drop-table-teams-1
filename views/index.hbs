@@ -8,15 +8,15 @@
     <table>
       <tr>
         <td>Period</td>
-        <td>Frequency</td>
+        <td>Duration</td>
       </tr>
       <tr>
         <td>
           <select class = "select" name="durationPeriod" form="theForm">
-            <option value=365>Days</option>
-            <option value=52>Weeks</option>
-            <option value=12>Months</option>
-            <option value=1>Years</option>
+            <option value=1>Days</option>
+            <option value=7>Weeks</option>
+            <option value=30>Months</option>
+            <option value=365>Years</option>
           </select>
         </td>
         <td>
@@ -33,10 +33,10 @@
       <tr>
         <td>
           <select class = "select" name="meetingPeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>
@@ -53,10 +53,10 @@
       <tr>
         <td>
           <select class = "select" name="supportPeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>
@@ -76,10 +76,10 @@
       <tr>
         <td>
           <select class = "select" name="trackProgressPeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>
@@ -95,11 +95,11 @@
       </tr>
       <tr>
         <td>
-          <select class = "select" name="messagePeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+          <select class = "select" name="messagePeriod" form="stheForm">
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>
@@ -116,10 +116,10 @@
       <tr>
         <td>
           <select class = "select" name="twelveStepPeriod" form="theForm">
-            <option value=365>Daily</option>
-            <option value=52>Weekly</option>
-            <option value=12>Monthly</option>
-            <option value=1>Yearly</option>
+           <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>
@@ -127,8 +127,23 @@
         </td>
       </tr>
     </table>
+
+    
+    <table>
+      <p class="label">
+      Have you ever relapsed while in a 12 step recovery program?
+    </p>
+      <tr>
+        <td>
+           <input type="radio" name="relapse" value="1" checked> Yes<br>
+            <input type="radio" name="relapse" value="0"> No<br>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </table>
     <p class="label">
-      After you first started attending 12 step meetings how long did you remain sober?<br>
+      If you have relapsed, how long did you remain sober after you first started attending 12 step meetings? <br>
       (i.e. Duration until initial relapse.)
     </p>
     <table>
@@ -139,10 +154,10 @@
       <tr>
         <td>
           <select class = "select" name="relapsePeriod" form="theForm">
-            <option value=365>Days</option>
-            <option value=52>Weeks</option>
-            <option value=12>Months</option>
-            <option value=1>Years</option>
+           <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
           </select>
         </td>
         <td>

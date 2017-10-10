@@ -7,6 +7,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+	console.log(req.body);
 	console.log('Route viz test');
 	//console.log(req.data);
     res.render('viz', { title: 'Viz' });

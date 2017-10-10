@@ -3,6 +3,7 @@
    $('#btn').click(function(e) {
      // console.log('click!');
      var form = $('#theForm')[0];
+
      var jdata = {
        //The format for this data is as follows
        //question name/tag : [period, frequency]
@@ -18,13 +19,14 @@
        "message"             : form[9].value,
        "twelveStepPeriod"    : form[10].value,
        "twelveStep"          : form[11].value,
-       "relapsePeriod"       : form[12].value,
-       "relapse"             : form[13].value,
+       "relapse_bool"       : form[12].value,
+       "relapsePeriod"       : form[13].value,
+       "relapse"             : form[14].value,
      }
-
-     $.post('/computation',jdata, function(rsp) {
+     $.post('computation',jdata, function(rsp) {
        response = rsp;
        console.log(response);
+       
        window.location.href = window.location+"viz";
 
      });
@@ -34,6 +36,11 @@
 
    });
  });
+
+
+$('input[type="checkbox"]').on('change', function() {
+    $('input[name="' + this.name + '"]').not(this).prop('checked', false);
+});
 
 //$(function() {
   // $('#theinputfield').change(function() {
@@ -61,472 +68,78 @@ function daysBetween( date1, date2 ) {
   return Math.round(difference_ms/one_day); 
 }
 
-  function createGraph(dataset, xName, yObjs, axisLables, similarity){
-    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
-    var arrayData = [];
-    var tmpArr = []
-    dataset.forEach(function (d) {
-      d.Time = d.Time;
-        switch(d.dCode){
-          case "RELAPSE_DURATION_1-10":
-            d.relapse = 1;
-            break;
-          case "RELAPSE_DURATION_11-30":
-            d.relapse = 2;
-            break;
-          case "RELAPSE_DURATION_30+":
-            d.relapse = 3;
-            break;
-          default:
-          d.relapse = 0;
-        }
-        d.Time = parseTime(d.Time);
-        d.Engagment = +d.Engagment;
-        d.Diversity = +d.aDiversity;
-        d.Daily_Message = +d.dailyMsg;
-        d.relapse = d.relapse / 3;
-        d.Relapses = d.relapse;
-        arrayData.push(d.Time);
-        tmpArr.push(d);
-        if(d.Engagment < 0 | d.Diversity < 0 | d.Daily_Message < 0){
-          console.log(Object.keys(d));
-          console.log(Object.values(d));
-        }
 
-      });
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-    var graphObj = {};
-    var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
-    graphObj.relapse_cols = d3.scaleOrdinal().range(relapse_cols);
-    graphObj.data = tmpArr;
-    graphObj.relapse_data = [];
-    var rel_count = 0;
-    graphObj.data.forEach(function(d){
-      if(d.relapse != 0){
-        var x = d;
-        d.y = 1;
-        rel_count++;
-        graphObj.relapse_data.push(x);
 
-    }
-    });
-    var last_index = arrayData.length;
-    var Use_Period = daysBetween(arrayData[0], arrayData[last_index -1]);
-    var summaryStats = { "Total_relapses": rel_count , "Similarity" : similarity, "Use_Length": Use_Period };
-    graphObj.summaryStats = summaryStats;
-    graphObj.xAxisLable = axisLables.xAxis;
-    graphObj.yAxisLable = axisLables.yAxis;
-    var marigin = {top: 30,
-      right: 20,
-      bottom: 30,
-      left: 50};
+  function createGraph(treeData){
+    var margin = {top: 20, right: 120, bottom: 20, left: 120},
+  width = 1200 - margin.right - margin.left,
+  height = 500 - margin.top - margin.bottom;
 
-      graphObj.marigin = marigin;
 
-      var width = 1000 - marigin.left - marigin.right;
-      graphObj.width = width;
-      var height = 300 - marigin.top - marigin.bottom;
-      graphObj.height = height;
+var treemap = d3.tree()
+    .size([height, width]);
+
+//  assigns the data to a hierarchy using parent-child relationships
+var nodes = d3.hierarchy(treeData, function(d) {
+    return d.children;
+  });
 
 
 
+// maps the node data to the tree layout
+nodes = treemap(nodes);
+
+// append the svg object to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom),
+    g = svg.append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+// adds the links between the nodes
+var link = g.selectAll(".link")
+    .data( nodes.descendants().slice(1))
+  .enter().append("path")
+    .attr("class", "link")
+    .style("stroke", function(d) { return d.data.level; })
+    .attr("d", function(d) {
+       console.log("link test"); console.log(d);return "M" + d.y + "," + d.x
+         + "C" + (d.y + d.parent.y) / 2 + "," + d.x
+         + " " + (d.y + d.parent.y) / 2 + "," + d.parent.x
+         + " " + d.parent.y + "," + d.parent.x;
+       });
+
+// adds each node as a group
+var node = g.selectAll(".node")
+    .data(nodes.descendants())
+  .enter().append("g")
+    .attr("class", function(d) { 
+      console.log("node test"); console.log(d); return "node" + 
+        (d.data.children ? " node--internal" : " node--leaf"); })
+    .attr("transform", function(d) { 
+      return "translate(" + d.y + "," + d.x + ")"; });
 
 
-  // So we can pass the x and y as strings when creating the function
-  graphObj.xFunct = function(d){return d[xName]};
 
-  // For each yObjs argument, create a yFunction
-  function getYFn(column) {
-    return function (d) {
-      return d[column];
-    };
-  }
+// adds symbols as nodes
+node.append("path")
+  .style("stroke", function(d) {return d.data.type; })
+  .style("fill", function(d) {  return d.data.level; })
+  .attr("d", d3.symbol().size(function(d) { return d.data.value * 30; } )
+     .type(function(d) {  console.log("symbol test"); console.log(d); return d3.symbolCircle;
+      
+     }));
 
-    // Object instead of array
-    graphObj.yFuncts = [];
-    for (var y  in yObjs) {
-      yObjs[y].name = y;
-        yObjs[y].yFunct = getYFn(yObjs[y].column); //Need this  list for the ymax function
-      //  console.log("yFunct check "+yObjs[y].yFunct);
-        graphObj.yFuncts.push(yObjs[y].yFunct);
-      }
+// adds the text to the node
+node.append("text")
+  .attr("dy", ".35em")
+  .attr("x", function(d) { console.log(d.data);return d.data.children ? 
+    (d.data.value + 4) * -1 : d.data.value + 4 })
+  .style("text-anchor", function(d) { 
+    return d.children ? "end" : "start"; })
+  .text(function(d) { console.log("text test"); console.log(d); return d.data.name; });
 
-      graphObj.formatAsNumber = d3.format(".0f");
-      graphObj.formatAsDecimal = d3.format(".2f");
-      graphObj.formatAsLongDecimal = d3.format(".4f");
-      graphObj.formatAsTime = d3.timeFormat("%b %d, '%y");
-      graphObj.formatAsFloat = function (d) {
-        if (d % 1 !== 0) {
-          return d3.format(".2f")(d);
-        } else {
-          return d3.format(".0f")(d);
-        }
-
-      };
-
-      graphObj.xFormatter = graphObj.formatAsTime;
-      graphObj.yFormatter = graphObj.formatAsLongDecimal;
-
-     graphObj.bisectYear = d3.bisector(graphObj.xFunct).left; //< Can be overridden in definition
-
-//Create scale functions
-    graphObj.xScale = d3.scaleTime().range([0, graphObj.width]).domain(d3.extent(arrayData, function(d){ console.log(d); return d})); //< Can be overridden in definition
-
-// Get the max of every yFunct
-graphObj.max = function (fn) {
-  return d3.max(graphObj.data, fn);
-};
-
-//compute max for each variable and divide  each series by its max value
-graphObj.yScale = d3.scaleLinear().range([graphObj.height, 0]).domain([0, d3.max(graphObj.yFuncts.map(graphObj.max))]);
-
-    graphObj.formatAsYear = d3.format("");  //<---------- might need to adjust this fpr axis labels
-
-    graphObj.xAxis = d3.axisBottom().scale(graphObj.xScale).tickFormat(graphObj.xFormatter);
-
-    graphObj.yAxis = d3.axisLeft().scale(graphObj.yScale).tickFormat(graphObj.yFormatter);
-
-    // Build line building functions
-    function getYScaleFn(yObj) {
-      return function (d) {
-      //  console.log("yScale check "+graphObj.yScale(yObjs[yObj].yFunct(d)));
-        return graphObj.yScale(yObjs[yObj].yFunct(d));
-      };
-    }
-
-    for (var yObj in yObjs) {
-      switch(yObj){
-        case "Relapses":
-      yObjs[yObj].line = d3.line().defined(function(d){ return d.relapse > 0;})
-                                         .x(function (d) {
-                                           return graphObj.xScale(graphObj.xFunct(d));})
-                                         .y(getYScaleFn(yObj)).curve(d3.curveStep);
-        break;
-        case "Engagment":
-        yObjs[yObj].line = d3.line().defined(function(d){ return d.Engagment >= 0;})
-                                         .x(function (d) {
-                                           return graphObj.xScale(graphObj.xFunct(d));})
-                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
-        break;
-        case "Diversity":
-        yObjs[yObj].line = d3.line().defined(function(d){ return d.Diversity >= 0;})
-                                         .x(function (d) {
-                                           return graphObj.xScale(graphObj.xFunct(d));})
-                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
-        break;
-        case "Daily_Message":
-        yObjs[yObj].line = d3.line().defined(function(d){ return d.Daily_Message >= 0;})
-                                         .x(function (d) {
-                                           return graphObj.xScale(graphObj.xFunct(d));})
-                                         .y(getYScaleFn(yObj)).curve(d3.curveBasis);
-        break;
-
-        default:
-        yObjs[yObj].line = d3.line().x(function (d) {
-          return graphObj.xScale(graphObj.xFunct(d));
-        }).y(getYScaleFn(yObj)).curve(d3.curveBasis);
-      }}
-
-
-    graphObj.svg;
-
-// Change graph size according to window size
-
-graphObj.update_svg_size = function () {
-  graphObj.width = parseInt(graphObj.graphDiv.style("width"), 10) - (graphObj.marigin.left + graphObj.marigin.right);
-
-  graphObj.height = parseInt(graphObj.graphDiv.style("height"), 10) - (graphObj.marigin.top + graphObj.marigin.bottom);
-
-  /* Update the range of the scale with new width/height */
-  graphObj.xScale.range([0, graphObj.width]);
-  graphObj.yScale.range([graphObj.height, 0]);
-
-  if (!graphObj.svg) {return false;}
-
-  /* Else Update the axis with the new scale */
-  graphObj.svg.select('.x.axis').attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis);
-  graphObj.svg.select('.x.axis .label').attr("x", graphObj.width / 2);
-
-  graphObj.svg.select('.y.axis').call(graphObj.yAxis);
-  graphObj.svg.select('.y.axis .label').attr("x", -graphObj.height / 2);
-
-  /* Force D3 to recalculate and update the line */
-  for (var y  in yObjs) {
-    yObjs[y].path.attr("d", yObjs[y].line);
-    console.log("y check"+ JSON.stringify(y));
-  }
-
-
-  d3.selectAll(".focus.line").attr("y2", graphObj.height);
-
-  graphObj.graphDiv.select('svg').attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom));
-
-  graphObj.svg.select(".overlay").attr("width", graphObj.width).attr("height", graphObj.height);
-  graphObj.summaryDiv.style("width", graphObj.width).style("height", graphObj.height);
-  return graphObj;
-};
-
-graphObj.bind = function (selector) {
-  graphObj.mainDiv = d3.select(selector);
-        // Add all the divs to make it centered and responsive
-        var summarySelector;
-        switch(selector){
-          case "#one":
-           summarySelector = "#1";
-           break;
-        case "#two" :
-          summarySelector = "#2";
-          break;
-        case "#three":
-          summarySelector = "#3";
-          break;
-        case "#four":
-         summarySelector ="#4"
-         break;
-        case "#five":
-        summarySelector = "#5";
-        break;
-        case "#six":
-        summarySelector = "#6";
-        case "#seven":
-        summarySelector = "#7";
-        break;
-        case "#eight":
-        summarySelector = "#8";
-        break;
-        case "#nine":
-        summarySelector = "#9";
-        break;
-        case "#ten":
-        summarySelector = "#10";
-        break;
 }
-        if(summarySelector == "#7"){
-            $(summarySelector).html("<div class='content'><p id='rel_count'>Total Relapses Reported: "+graphObj.summaryStats.Total_relapses+"</p> <p>Total Days of App Usage: "+graphObj.summaryStats.Use_Length+"</p></div>");
-        }else{
-           $(summarySelector).append("<div class='content'><p id='rel_count'>Total Relapses Reported: "+graphObj.summaryStats.Total_relapses+"</p> <p>Total Days of App Usage: "+graphObj.summaryStats.Use_Length+"</p></div>");
-        }
-       
-        graphObj.mainDiv.append("div").attr("class", "inner-wrapper").append("div").attr("class", "outer-box").append("div").attr("class", "inner-box");
-        graphSelector = selector + " .inner-box";
-        graphObj.graphDiv = d3.select(graphSelector);
-        d3.select(window).on('resize.' + graphSelector, graphObj.update_svg_size);
-        graphObj.update_svg_size();
-        return graphObj;
-      };
-
-    graphObj.render = function () {
-        //Create SVG element
-        //
-        // summary info
-       graphObj.svg = graphObj.graphDiv.append("svg").attr("class", "graph-area").attr("width", graphObj.width + (graphObj.marigin.left + graphObj.marigin.right)).attr("height", graphObj.height + (graphObj.marigin.top + graphObj.marigin.bottom)).append("g").attr("transform", "translate(" + graphObj.marigin.left + "," + graphObj.marigin.top + ")");
-        // Draw Lines
-        for (var y  in yObjs) {
-          if(y == "Relapses"){
-
-          //standard approach
-          //Relapse logic handled in line generator
-          //if else statment left for debugging purposes
-           yObjs[y].path = graphObj.svg.append("g")
-            .selectAll("path")
-            .data(graphObj.data)
-            .enter()
-            .append("line")
-            .attr("class", "line")
-            .attr("x1", function(d, i){
-              return graphObj.xScale(graphObj.xFunct(d))
-            })
-            .attr("y1", graphObj.height)
-            .attr("x2", function(d, i){
-              return graphObj.xScale(graphObj.xFunct(d))
-            })
-            .attr("y2", function(d){
-            //  console.log(d.relapse)
-              return graphObj.yScale(yObjs[yObj].yFunct(d))
-            })
-            .style("stroke-width", "5px")
-            .style("stroke", color(y))
-            .attr("data-series", y)
-
-          } else{
-          yObjs[y].path = graphObj.svg.append("path").datum(graphObj.data).attr("class", "line").attr("d", yObjs[y].line).style("stroke", color(y)).attr("data-series", y).on("mouseover", function () {
-            focus.style("display", null);
-          }).on("mouseout", function () {
-            focus.transition().delay(700).style("display", "none");
-          }).on("mousemove", mousemove);
-        }}
-        // Draw Axis
-         graphObj.svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + graphObj.height + ")").call(graphObj.xAxis).append("text").selectAll("text").attr("transform", function(d){ return "rotate(-65)"}).attr("class", "label").attr("dx", "-.8em" ).attr("dy", ".15em" ).style("text-anchor", "end").text(graphObj.xAxisLable);
-
-        graphObj.svg.append("g").attr("class", "y axis").call(graphObj.yAxis).append("text").attr("class", "label").attr("transform", "rotate(-90)").attr("y", -42).attr("x", -graphObj.height / 2).attr("dy", ".71em").style("text-anchor", "middle").text(graphObj.yAxisLable);
-        //Draw tooltips
-        var focus = graphObj.svg.append("g").attr("class", "focus").style("display", "none");
-
-        for (var y  in yObjs) {
-          yObjs[y].tooltip = focus.append("g");
-          yObjs[y].tooltip.append("circle").attr("r", 5);
-          yObjs[y].tooltip.append("rect").attr("x", 8).attr("y","-5").attr("width",22).attr("height",'0.75em');
-          yObjs[y].tooltip.append("text").attr("x", 9).attr("dy", ".35em");
-        }
-
-        // Year label
-        focus.append("text").attr("class", "focus year").attr("x", 9).attr("y", 7);
-        // Focus line
-        focus.append("line").attr("class", "focus line").attr("y1", 0).attr("y2", graphObj.height);
-
-        //Draw legend
-        var legend = graphObj.mainDiv.append('div').attr("class", "legend");
-        for (var y  in yObjs) {
-          series = legend.append('div');
-          series.append('div').attr("class", "series-marker").style("background-color", color(y));
-          series.append('p').text(y);
-          yObjs[y].legend = series;
-        }
-
-        // Overlay to capture hover
-        graphObj.svg.append("rect").attr("class", "overlay").attr("width", graphObj.width).attr("height", graphObj.height).on("mouseover", function () {
-          focus.style("display", null);
-        }).on("mouseout", function () {
-          focus.style("display", "none");
-        }).on("mousemove", mousemove);
-
-        return graphObj;
-        function mousemove() {
-          //this is wht the NAN error is happening
-          var x0 = graphObj.xScale.invert(d3.mouse(this)[0]), i = graphObj.bisectYear(dataset, x0, 1), d0 = graphObj.data[i - 1], d1 = graphObj.data[i];
-          try {
-            var d = x0 - graphObj.xFunct(d0) > graphObj.xFunct(d1) - x0 ? d1 : d0;
-          } catch (e) { return;}
-          minY = graphObj.height;
-          for (var y  in yObjs) {
-        //    console.log("tooltip y check "+ y);
-            yObjs[y].tooltip.attr("transform", "translate(" + graphObj.xScale(graphObj.xFunct(d)) + "," + graphObj.yScale(yObjs[y].yFunct(d)) + ")");
-            yObjs[y].tooltip.select("text").text(graphObj.yFormatter(yObjs[y].yFunct(d)));
-            minY = Math.min(minY, graphObj.yScale(yObjs[y].yFunct(d)));
-          }
-          //console.log(minY);
-          focus.select(".focus.line").attr("transform", "translate(" + graphObj.xScale(graphObj.xFunct(d)) + ")").attr("y1", minY);
-          focus.select(".focus.year").text("Date: " + graphObj.xFormatter(graphObj.xFunct(d)));
-        }
-
-      };
-      return graphObj;
-    }
-
-  //pass in divContainer
-//   var svg = d3.select(divContainer).append("svg")
-//   .attr("width", width + marigin.left + marigin.right)
-//   .attr("height", height + marigin.top + marigin.bottom)
-//   .append("g")
-//   .attr("transform","translate(" + marigin.left + "," + marigin.top + ")");
-
-
-//   var x= d3.scaleTime().range([0,width]);
-//   var y= d3.scaleLinear().range([height,0]);
-//   //pass in datFilePath to callback
-//   //
-//   var relapseEvents = [];
-//   d3.json(datFilePath, function(err, data){
-
-//      data.forEach(function(d) {
-//       d.date = parseTime(d.Time);
-//       var relapse_check = d.dCode.includes("RELAPSE_DURATION_");
-//       console.log(relapse_check);
-//       console.log(d.dCode);
-//       if(relapse_check){
-//         relapseEvents.push(d);
-//       }
-//       console.log(relapseEvents.length);
-//   });
-//       //formatted = data;
-//       //redraw();
-//       //
-//   x.domain(d3.extent(data, function(d) { return d.date; }));
-//   y.domain([0, d3.max(data, function(d) { return d.Engagment; })]);
-//  svg.append("path")
-//       .data([data])
-//       .attr("class", "line")
-//       .attr("d", engage_line);
-
-//       var relapses1_10 = d3.line().x(function(d) { if(d.dCode.includes("RELAPSE_DURATION_1-10")){return x(d.date);} }).y(function(d) { if(d.dCode.includes("RELAPSE_DURATION_1-10")){return y(1);} });
-
-//     var engage_line = d3.line().x(function(d) { return x(d.date); }).y(function(d) { return y(d.Engagment); });
-//      var dailyMsg_line = d3.line()
-//      .x(function(d) { return x(d.date); })
-//      .y(function(d) { return y(d.dailyMsg); });
-//      var diversity_line = d3.line()
-//      .x(function(d) { return x(d.date); })
-//      .y(function(d) { return y(d.aDiversity); });
-
-//      relapseEvents.forEach(function(d){
-//       svg.append("line")
-//       .attr("x1", x(d.date))
-//       .attr("y1", 0)
-//       .attr("x2", x(d.date))
-//       .attr("y2", height - marigin.top - marigin.bottom)
-//       .style("stroke-width", 2)
-//       .style("stroke", "red")
-//       .style("fill", "none");
-//      });
-
-//     svg.append("path")
-//       .data([data])
-//       .attr("class", "line")
-//       .attr("id", "dailyMsg_plot")
-//       .style("stroke","#28d41c")
-//       .attr("d", dailyMsg_line);
-
-//       svg.append("path")
-//       .data([data])
-//       .attr("class", "line")
-//       .attr("id", "diversity_plot")
-//       .style("stroke","#7721d9")
-//       .attr("d", diversity_line);
-
-//       svg.append("path")
-//       .data([data])
-//       .attr("class", "line")
-//       .attr("d", engage_line);
-
-//       //Add the relapses
-//       svg.append("path")
-//       .data([data])
-//       .attr("class", "line")
-//       .attr("id", "diversity_plot")
-//       .style("stroke","#21b5d9")
-//       .attr("d", relapses1_10);
-
-//   // Add the X Axis
-//   svg.append("g")
-//       .attr("class", "axis")
-//       .attr("transform", "translate(0," + height + ")")
-//       .call(d3.axisBottom(x)
-//               .tickFormat(d3.timeFormat("%y")))
-//       .selectAll("text")
-//         .style("text-anchor", "end")
-//         .attr("dx", "-.8em")
-//         .attr("dy", ".15em")
-//         .attr("transform", "rotate(-65)");
-
-//   // Add the Y Axis
-//   svg.append("g")
-//       .attr("class", "axis")
-//       .call(d3.axisLeft(y));
-//     });
-
-// }
-
-
-// function zoomed() {
-
-//       svg.select(".x.axis").call(xAxis);
-//       svg.select(".y.axis").call(yAxis);
-
-//     svg.selectAll(".tipcircle")
-//       .attr("cx", function(d,i){return x(d.date)})
-//       .attr("cy",function(d,i){return y(d.value)});
-
-//     svg.selectAll(".line")
-//         .attr("class","line")
-//           .attr("d", function (d) { return line(d.values)});
-//   }

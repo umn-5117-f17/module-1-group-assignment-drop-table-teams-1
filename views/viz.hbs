@@ -11,132 +11,128 @@
 </head>
 <body>
 
- <div class="content">
-   <h1>Below are the most similar recovery histories to you. </h1>
-   <h2> Remember to take each day one at a time, and breath!</h2>
-</div>
 
 
-
-
-
-<div class= 'framewrap'>
-  <ul>
-  	<li><div id="user-wrapper">
-     <div class="summary-wrapper" id="1"> </div> <div class="graph-wrapper" id="one"></div></div></li>
-     <li><div id="user-wrapper">
-      <div class="summary-wrapper" id="2"> </div> <div class="graph-wrapper" id="two"></div></div></li>
-      <li><div id="user-wrapper">
-       <div class="summary-wrapper" id="3"> </div> <div class="graph-wrapper" id="three"></div></div></li>
-       <li><div id="user-wrapper">
-        <div class="summary-wrapper" id="4"> </div> <div class="graph-wrapper" id="four"></div></div></li>
-        <li><div id="user-wrapper">
-         <div class="summary-wrapper" id="5"> </div> <div class="graph-wrapper" id="five"></div></div></li>
-         <li><div id="user-wrapper">
-          <div class="summary-wrapper" id="6"> </div> <div class="graph-wrapper" id="six"></div></div></li>
-          <li><div id="user-wrapper">
-           <div class="summary-wrapper" id="7"> </div> <div class="graph-wrapper" id="seven"></div></div></li>
-           <li><div id="user-wrapper">
-            <div class="summary-wrapper" id="8"> </div> <div class="graph-wrapper" id="eight"></div></div></li>
-            <li><div id="user-wrapper">
-             <div class="summary-wrapper" id="9"> </div> <div class="graph-wrapper" id="nine"></div></div></li>
-             <li><div id="user-wrapper">
-              <div class="summary-wrapper" id="10"> </div> <div class="graph-wrapper" id="ten"></div></div></li>
-                      </ul>
                       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
                       <script type="text/javascript">
 
+    var treeData = {
+    "name": "Total Population",
+    "parent": "null",
+    "value": 596,
+    "relapse": 0.12,
+    "type": "black",
+    "level": "red",
+    "icon": "earth.png",
+    "children": [
+      {
+        "name": "Level 2: A",
+        "parent": "Top Level",
+        "value": 51,
+        "relapse": 0.32,
+        "type": "grey",
+        "level": "red",
+       "icon": "cart.png",
+        "children": [
+          {
+            "name": "Group 15",
+            "parent": "Level 2: A",
+            "value": 11,
+            "relapse": 0.53,
+            "type": "steelblue",
+            "icon": "lettern.png",
+            "level": "orange"
+          },
+          {
+            "name": "Daughter of A",
+            "parent": "Level 2: A",
+            "value": 40,
+            "relapse":0.27,
+            "type": "steelblue",
+            "icon": "vlc.png",
+            "level": "red",
+            "children": [
+                       {
+                        "name": "Daughter of A",
+                        "parent": "Level 2: A",
+                        "value": 30,
+                        "relapse": 0.31,
+                        "type": "steelblue",
+                        "icon": "vlc.png",
+                        "level": "red"
+                      },
+                      {"name": "Daughter of A",
+                        "parent": "Level 2: A",
+                        "value": 11,
+                        "relapse":0.15,
+                        "type": "steelblue",
+                        "icon": "vlc.png",
+                        "level": "red"
+                      }
+                        ]
+                }
+        ]
+      },
+      {
+        "name": "Level 2: B",
+        "parent": "Top Level",
+        "value": 545,
+        "relapse": 0.1,
+        "type": "grey",
+        "icon": "random.png",
+        "level": "green",
+        "children": [
+        {
+            "name": "Son of B",
+            "parent": "Level 2: A",
+            "value": 263,
+            "relapse": 0.14,
+            "type": "steelblue",
+            "icon": "lettern.png",
+            "level": "orange"
 
-    //relapses 1-11 days, 11-30, 30+
-    var relapse_cols = ["#ff0000", "#ab0000", "#460000"];
-    var relapse_color = d3.scaleOrdinal().range(relapse_cols);
-    //defines a function to be used to append the title to the tooltip.  you can set how you want it to display here.
-  
+        },{
+            "name": "",
+            "parent": "Level 2: A",
+            "value": 282,
+            "relapse": 0.066,
+            "type": "steelblue",
+            "icon": "lettern.png",
+            "level": "orange",
+            "children": [
+            {
+            "name": "Group 1",
+            "parent": "Level 2: A",
+            "value":85,
+            "relapse": 0.035,
+            "type": "steelblue",
+            "icon": "lettern.png",
+            "level": "orange"
 
-     var parseDate = d3.timeParse("%b %d, '%y");
-     var yObjs = {
-      "Engagment" : {column: "Engagment"},
-      "Diversity" : {column: "Diversity"},
-      "Daily_Message" : {column: "Daily_Message"},
-      "Relapses" : {column: "Relapses"}
-    }
+        },{
+            "name": "Group 2",
+            "parent": "Level 2: A",
+            "value":102,
+            "relapse": 0.035,
+            "type": "steelblue",
+            "icon": "lettern.png",
+            "level": "orange"
 
-    var axisLabels = {xAxis: 'Time', yAxis: 'Usage'};
-
-    var xName = "Time";
-    var parseTime = d3.timeParse("%Y-%m-%d %H:%M:%S");
-
-    d3.json('/data/output.json', function(err, data){
-
-      console.log(Object.keys(data));
-      var sims = data.userSim;
-      var user1= data.user1;
-      var user2= data.user2;
-      var user3= data.user3;
-      var user4= data.user4;
-      var user5= data.user5;
-      var user6= data.user6;
-      var user7= data.user7;
-
-      console.log("seven check "+user7);
-      var user8= data.user8;
-      var user9= data.user9;
-      var user10= data.user10;
-
+        }]
+          }
+        ]
+      }
+    ]
+  }
+;
 
 
 
 
 
-     var graphOne = createGraph(user1, xName, yObjs, axisLabels, sims[0]);
-     var graphTwo = createGraph(user2, xName, yObjs, axisLabels, sims[1]);
-     var graphThree= createGraph(user3, xName, yObjs, axisLabels, sims[2]);
-     var graphFour = createGraph(user4, xName, yObjs, axisLabels, sims[3]);
-     var graphFive = createGraph(user5, xName, yObjs, axisLabels, sims[4]);
-     var graphSix = createGraph(user6, xName, yObjs, axisLabels, sims[5]);
-     var graphSeven = createGraph(user7, xName, yObjs, axisLabels, sims[6]);
-     var graphEight = createGraph(user8, xName, yObjs, axisLabels, sims[7]);
-     var graphNine = createGraph(user9, xName, yObjs, axisLabels, sims[8]);
-     var graphTen = createGraph(user10, xName, yObjs, axisLabels,sims[9]);
 
-     graphOne.bind("#one");
-     graphTwo.bind("#two");
-     graphThree.bind("#three");
-     graphFour.bind("#four");
-     graphFive.bind("#five");
-     graphSix.bind("#six");
-     graphSeven.bind("#seven");
-     graphEight.bind("#eight");
-     graphNine.bind("#nine");
-     graphTen.bind("#ten");
-     graphTen.render();
-
-     graphTwo.render();
-     graphThree.render();
-     graphFour.render();
-     graphFive.render();
-     graphSix.render();
-     graphSeven.render();
-     graphEight.render();
-     graphNine.render();
-
-     graphOne.render();
-
-
-
-
-    });
-     // createGraph('data/output.json','.graph-wrapper-2');
-     // createGraph('data/output.json','.graph-wrapper-3');
-     // createGraph('data/output.json','.graph-wrapper-4');
-     // createGraph('data/output.json','.graph-wrapper-5');
-     // createGraph('data/output.json','.graph-wrapper-6');
-     // createGraph('data/output.json','.graph-wrapper-7');
-     // createGraph('data/output.json','.graph-wrapper-8');
-     // createGraph('data/output.json','.graph-wrapper-9');
-     // createGraph('data/output.json','.graph-wrapper-10');
-
+     createGraph(treeData);
 
 
 </script>
