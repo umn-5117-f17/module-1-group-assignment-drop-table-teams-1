@@ -3,12 +3,14 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var app = express();
+var qt = require('quickthumb');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 var index = require('./routes/index');
 var users = require('./routes/users');
-var viz = require('./routes/viz');
+var survey = require('./routes/survey');
 var data = require('./routes/data');
 
 
@@ -27,9 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/data', data);
-app.use('/viz', viz);
+app.use('/survey', survey);
 
-
+app.use('/public', qt.static(__dirname + '/public/images'));
 
 
 // catch 404 and forward to error handler

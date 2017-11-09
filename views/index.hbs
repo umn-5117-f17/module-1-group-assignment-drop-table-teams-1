@@ -1,171 +1,234 @@
-<div id="body">
-  <div class="content">
-    <h1>Welcome to the Hazelden Data Exploration App!</h1>
-    <h3>Please complete the form below to discover users similar to yourself!</h3>
-  </div>
-  <form id="theForm" enctype="application/x-www-form-urlencoded">
-    <p class="label">How long have you been involved in a 12 step recovery program?</p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Duration</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="durationPeriod" form="theForm">
-            <option value=1>Days</option>
-            <option value=7>Weeks</option>
-            <option value=30>Months</option>
-            <option value=365>Years</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="duration" name="duration" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p class="label">How often do you attend 12 step recovery meetings</p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="meetingPeriod" form="theForm">
-            <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="meeting" name="meeting" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p class="label" >How often do you seek support during your recovery process?</p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="supportPeriod" form="theForm">
-            <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="support" name="support" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p class="label" >
-      How often have you kept track of progress?<br>
-      (e.g. Make a journal entry, kept a sober counter, etc.)
-    </p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="trackProgressPeriod" form="theForm">
-            <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="trackProgress" name="trackProgress" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p class="label">How often do you read inspiriational messages/message of the day?</p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="messagePeriod" form="stheForm">
-            <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="message" name="message" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p class="label">How often do you view any of the 12 steps?</p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="twelveStepPeriod" form="theForm">
-           <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="twelveStep" name="twelveStep" type="number"><br>
-        </td>
-      </tr>
-    </table>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{title}}</title>
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="./javascripts/local.js"></script>
+  <script src="https://d3js.org/d3-zoom.v0.1.min.js"></script>
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+<script src="d3-transform.js"></script>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
+</head>
+<body>
+  <h1 style="text-align:center"> Hazelden's Field Guide to Life Data Visualization</h1>
+  <div class = "container">
+    <button id="reset-zoom-button" >Reset</button>
+    <button id="quiz-button" >Take the Survey!</button>
+    <svg width="960" height="1000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    </svg>
 
-    
-    <table>
-      <p class="label">
-      Have you ever relapsed while in a 12 step recovery program?
-    </p>
-      <tr>
-        <td>
-           <input type="radio" name="relapse" value="1" checked> Yes<br>
-            <input type="radio" name="relapse" value="0"> No<br>
-        </td>
-        <td>
-        </td>
-      </tr>
-    </table>
-    <p class="label">
-      If you have relapsed, how long did you remain sober after you first started attending 12 step meetings? <br>
-      (i.e. Duration until initial relapse.)
-    </p>
-    <table>
-      <tr>
-        <td>Period</td>
-        <td>Frequency</td>
-      </tr>
-      <tr>
-        <td>
-          <select class = "select" name="relapsePeriod" form="theForm">
-           <option value=1>Daily</option>
-            <option value=7>Weekly</option>
-            <option value=30>Monthly</option>
-            <option value=365>Yearly</option>
-          </select>
-        </td>
-        <td>
-          <input class="input" id="relapse" name="relapse" type="number"><br>
-        </td>
-      </tr>
-    </table>
-    <p></p>
-    <button class ="button" type="button" id="btn">Visualize Data</button>
-  </form>
+
+    <div class= "imageviewer">
+      <text>TA = Total Actions;
+        AD = Action Diversity;
+       E = Engagment;
+       DMV = Daily Message Views;
+       IR = Time till Initial Relapse;
+     </text>
+      <div class ="image" width= "400" height= "200">
+        <img src='../image_thumbs/out_group1_after_final_2months.png' onclick='this.src="../images/group1_after_final_2months.png"' />
+      </div>
+      <div class="legend"> </div>
+
+<div>
+
+  <img id="image" src="../images/group10_after._final_1month.png?dim=200x100" alt="Picture">
 </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    var user_data = "{{ user_data }}"
+    console.log("viz data pass: "+user_data);
+    var commasplit = user_data.split(",");
+    var kv_col = [];
+    // var tmp;
+    // var tmp2;
+    // var tmp3;
+    // for (var i = commasplit.length - 1; i >= 0; i--) {
+    //
+    //   tmp = commasplit[i].split(":")
+    //   tmp2 = tmp[0].split(";");
+    //   tmp3 = tmp2[1].split("&");
+    //
+    //   var key_val = [tmp3[0], tmp[1]];
+    //
+    //   kv_col.push(key_val);
+    // }console.log(kv_col);
+
+    var treeData ={"name": "1",
+ "size":591,
+"rule": "",
+"parent": "null",
+"value": 591,
+"relapse": 0.2,
+"type": "blue",
+"level": "blue",
+"left-label": "Less than 51% of the possible actions taken",
+"right-label": "51%, oe more, of the possible actions taken",
+"children": [
+  {"name": "2",
+       "size":459,
+     "edge_label": "AD >= 51%",
+     "parent": "null",
+       "value": 459,
+       "relapse": 0.16,
+       "type": "blue",
+       "level": "blue",
+     "parent": "null",
+     "rule": "Action.Diversity >= 0.510727969348659",
+     "children": [
+      {"name": "3",
+       "size":189,
+       "edge_label": " E >= 60%",
+       "parent": "null",
+        "value": 189,
+             "relapse": 0.094,
+             "type": "blue",
+             "level": "blue",
+           "parent": "null",
+       "rule":"Action.Diversity >= 0.510727969348659 & Engagment >= 0.602983261002446"},
+      {"name": "4",
+       "size":270,
+       "edge_label": " E < 60%",
+           "parent": "null",
+             "value": 270,
+             "relapse": 0.21,
+             "type": "blue",
+             "level": "blue",
+           "parent": "null",
+       "rule": "Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446",
+       "children": [
+        {"name": "5",
+         "size":117,
+         "edge_label": "DMV >= 50% TA",
+               "parent": "null",
+                 "value": 117,
+                 "relapse": 0.15,
+                 "type": "blue",
+                 "level": "blue",
+               "parent": "null",
+           "rule":"Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message >= 0.501700680272109"},
+           {"name": "6",
+            "size":153,
+         "edge_label": "DMV < 50% TA",
+               "parent": "null",
+                 "value": 153,
+                 "relapse": 0.25,
+                 "type": "blue",
+                 "level": "blue",
+               "parent": "null",
+            "rule": "Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message < 0.501700680272109",
+            "children": [
+              {"name": "7",
+               "size":93,
+               "edge_label": " E >= 48%",
+               "value":93,
+               "relapse": 0.22,
+                     "type": "blue",
+                     "level": "blue",
+               "rule":"Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message < 0.501700680272109 & Engagment >= 0.493492165932115"},
+              {"name": "8",
+               "size":60,
+               "edge_label": " E < 48%",
+               "value":60,
+               "relapse": 0.3,
+                     "type": "blue",
+                     "level": "blue",
+               "rule": "Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message < 0.501700680272109 & Engagment < 0.493492165932115",
+               "children": [
+                {"name": "9",
+                 "size":45,
+                 "edge_label": " E < 48%",
+                   "value":45,
+                   "relapse": 0.25,
+                         "type": "blue",
+                         "level": "blue",
+                 "rule":"Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message < 0.501700680272109 & Engagment < 0.493492165932115 & Engagment < 0.476155287114846"},
+                 {"name": "10",
+                  "size":15,
+                  "edge_label": " E >=  48%",
+                   "value":15,
+                   "relapse": 0.45,
+                         "type": "blue",
+                         "level": "blue",
+                  "rule":"Action.Diversity >= 0.510727969348659 & Engagment < 0.602983261002446 & daily.Message < 0.501700680272109 & Engagment < 0.493492165932115 & Engagment >= 0.476155287114846"}
+                ]}]}]}]},
+     {"name": "11",
+   "size":132,
+   "rule": "Action.Diversity < 0.510727969348659",
+   "edge_label": "AD < 51%",
+   "parent": "null",
+     "value": 132,
+     "relapse": 0.35,
+     "type": "blue",
+     "level": "blue",
+     "left-label": " Less than 88 minutes till first reported relapse",
+     "right-label": "88 minutes, or longer, till first reported relapse",
+
+     "children": [
+        {"name": "12",
+         "size":91,
+         "edge_label": "IR >= 88 minutes",
+           "parent": "null",
+             "value": 91,
+             "relapse": 0.29,
+             "type": "blue",
+             "level": "blue",
+         "rule":"Action.Diversity < 0.510727969348659 & Interval.Init.Relapse >= 0.0612789351851852"},
+        {"name": "13",
+         "size":41,
+         "edge_label": "IR < 88 minutes",
+           "parent": "null",
+             "value": 41,
+             "relapse": 0.49,
+             "type": "blue",
+             "level": "blue",
+         "rule": "Action.Diversity < 0.510727969348659 & Interval.Init.Relapse < 0.0612789351851852",
+
+          "children": [
+            {"name": "14",
+             "size":19,
+             "edge_label": "E >= 49%",
+               "parent": "null",
+                 "value": 19,
+                 "relapse": 0.37,
+                 "type": "blue",
+                 "level": "blue",
+             "rule":"Action.Diversity < 0.510727969348659 & Interval.Init.Relapse < 0.0612789351851852 & Engagment >= 0.492424242424242"},
+            {"name": "15",
+             "size":22,
+             "edge_label":"E < 0.49",
+             "value":22,
+             "relapse": 0.6,
+             "type": "blue",
+             "level": "blue",
+             "rule":"Action.Diversity < 0.510727969348659 & Interval.Init.Relapse < 0.0612789351851852 & Engagment < 0.492424242424242"}]}]}]}
+      ;
+
+
+
+
+
+      //d3.select("button").on("click", reset);
+      createGraph(treeData,kv_col);
+      window.addEventListener('DOMContentLoaded', function () {
+      var galley = document.getElementById('galley');
+      var viewer;
+      $('#modal').on('shown.bs.modal', function () {
+        viewer = new Viewer(galley, {
+          url: 'data-original',
+        });
+      }).on('hidden.bs.modal', function () {
+        viewer.destroy();
+      });
+    });
+
+    </script>
+
+  </body>
+  </html>
