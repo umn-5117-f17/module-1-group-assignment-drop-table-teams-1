@@ -19,7 +19,10 @@ router.get('/', function(req, res, next) {
     var durationPeriod = req.query.durationPeriod;
     var durationFrequency = req.query.duration;
     var relapse_check = req.query.relapse;
-
+    var relpse_day_check = req.query.day;
+    var likert_engage = req.query.likert;
+    console.log(likert_engage);
+    console.log(relpse_day_check);
     initialRelapseFrequency =String(initialRelapseFrequency).split(",")[1];
     initialRelapseFrequency = parseInt(initialRelapseFrequency);
 var init_relapse = calculator(initialRelapsePeriod, initialRelapseFrequency, durationPeriod, durationFrequency, "init_relapse");
@@ -28,9 +31,9 @@ var support = calculator(supportPeriod, supportFrequency, durationPeriod, durati
 var progress = calculator(trackProgressPeriod, trackProgressFrequency, durationPeriod, durationFrequency, "progress");
 var message = calculator(dailyMessagePeriod, dailyMessageFrequency, durationPeriod, durationFrequency, "message");
 var step = calculator(twelveStepPeriod, twelveStepFrequency, durationPeriod, durationFrequency, "steps");
-var totalActions = meeting + support + progress + message + step;
+var totalActions = meeting  + support + progress + message + step;
 console.log("totalActions " + totalActions);
-var activeUseDays = meetingFrequency + supportFrequency + trackProgressFrequency + dailyMessageFrequency + twelveStepFrequency;
+var activeUseDays = meetingFrequency + supportFrequency + trackProgressFrequency + dailyMessageFrequency + twelveStepFrequency/ 5;
 console.log("activeUseDays "+ activeUseDays);
 console.log("use days " + activeUseDays);
 var initialRelapse = 20;
@@ -65,6 +68,7 @@ console.log("reference steps " + referenceSteps);
 relapse_check =String(relapse_check).split(",")[0];
 console.log("relapse bool check: " + relapse_check);
 relapse_check = parseInt(relapse_check);
+likert_engage = likert_engage *1.0;
 
 console.log("relapse init check"+init_relapse);
 var retObj = { "actionDiversity": actionDiversity,"dailyMessage" : dailyMessage,
@@ -72,9 +76,11 @@ var retObj = { "actionDiversity": actionDiversity,"dailyMessage" : dailyMessage,
                "meetingAttendance" :meetingAttendance,
                "seekSupport":seekSupport,
                "referenceSteps":referenceSteps,
-               "engagment": engagement,
-               "init_relapse":init_relapse,
-               "relapse_check":relapse_check
+               "engagment": likert_engage,
+               "init_relapse":parseInt(relpse_day_check), //1 == true ; 0 = false,
+               "relapse_check":parseInt(relapse_check)
+
+
                };
 
 // fs.writeFile(__dirname +'/../public/data/output.json', JSON.stringify(retObj));

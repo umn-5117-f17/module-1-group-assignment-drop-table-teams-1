@@ -103,7 +103,7 @@ $("#reset-zoom-button").click(() => {
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
   width = 800 - margin.right - margin.left,
   height = 900 - margin.top - margin.bottom;
-
+  console.log(userData);
   d3.select('#reset-zoom-button').on('click',reset);
 var treemap = d3.tree()
     .size([height, width]);
@@ -162,7 +162,8 @@ var link = g.selectAll(".link")
      .attr("id",  function(d,i){return "edge_"+i})
     .style("stroke", function(d) { return d.data.level; })
     .attr("d", function(d) {
-       console.log("link label"+Object.values(d.data));return "M" + d.parent.y + "," + d.parent.x
+      // console.log("link label"+Object.values(d.data));
+       return "M" + d.parent.y + "," + d.parent.x
          + "C" + (d.y + d.parent.y) / 2 + "," + d.parent.x
          + " " + (d.y + d.parent.y) / 2 + "," + d.x
          + " " + d.y + "," + d.x;
@@ -238,8 +239,216 @@ var node = g.selectAll(".node")
 
 // adds symbols as nodes
 node.append("svg:circle")
-  .style("stroke", function(d) {return d.data.type; })
-  .style("fill", function(d) {  return d.data.level; })
+  .style("stroke", function(d,i){
+    var color = "";
+    if(userData[8] === undefined){
+      color = "blue";
+    }else{
+      if(i ==0) {
+
+          color = "blue";
+
+      } else if (i == 1) {
+        if (userData[8][1] >= .51){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 2) {
+        if (userData[8][1] < .51){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 3) {
+        if (userData[8][1] >= .51 & userData[2][1] >= .6){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 4) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 5) {
+        if (userData[8][1] < .51 & userData[1][1] == 1){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 6) {
+        if (userData[8][1] < .51 & userData[1][1] == 0){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 7) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] >= .5){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 8) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 9) {
+        if ((userData[8][1] < .51 & userData[1][1] == 0 & userData[2][1] >= .49)){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 10) {
+        if ((userData[8][1] < .51 & userData[1][1] == 0 & userData[2][1] < .49)){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 11) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] >= .49 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 12) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 13) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 & userData[2][1] < .48 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 14) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 & userData[2][1] >= .48 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }
+    }
+
+
+    console.log(d.data);  return color; })
+  .style("fill", function(d,i) {
+    var color = "";
+    if(userData[8] === undefined){
+      color = "blue";
+    }else{
+      if(i ==0) {
+
+          color = "blue";
+
+      } else if (i == 1) {
+        if (userData[8][1] >= .51){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 2) {
+        if (userData[8][1] < .51){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 3) {
+        if (userData[8][1] >= .51 & userData[2][1] >= .6){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 4) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 5) {
+        if (userData[8][1] < .51 & userData[1][1] == 1){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 6) {
+        if (userData[8][1] < .51 & userData[1][1] == 0){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 7) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] >= .5){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 8) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 9) {
+        if ((userData[8][1] < .51 & userData[1][1] == 0 & userData[2][1] >= .49)){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 10) {
+        if ((userData[8][1] < .51 & userData[1][1] == 0 & userData[2][1] < .49)){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 11) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] >= .49 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 12) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }else if (i == 13) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 & userData[2][1] < .48 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+
+      }else if (i == 14) {
+        if (userData[8][1] >= .51 & userData[2][1] < .6 & userData[7][1] < .5 & userData[2][1] < .49 & userData[2][1] >= .48 ){
+          color="red";
+        }else{
+          color = "blue";
+        }
+      }
+    }
+
+
+    console.log(d.data);  return color; })
   .attr("r", function(d) { return d.data.value /5; } )
   .style("fill-opacity", function(d){ return 1.886792453 * d.data.relapse})
   .append("svg:title")

@@ -1,0 +1,198 @@
+<div id="body">
+  <div class="content">
+    <h1>Welcome to the Hazelden Data Exploration App!</h1>
+    <h3>Please complete the form below to discover how to improve your odds of a staying clean and sober!</h3>
+  </div>
+  <form action="/users" method = "get" id="theForm" enctype="application/x-www-form-urlencoded">
+    <p class="label">How long have you been involved in a 12 step recovery program?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Duration</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="durationPeriod" form="theForm">
+            <option value=1>Days</option>
+            <option value=7>Weeks</option>
+            <option value=30>Months</option>
+            <option value=365>Years</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="duration" name="duration" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p class="label">How often do you attend 12 step recovery meetings?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="meetingPeriod" form="theForm">
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="meeting" name="meeting" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p class="label" >How often do you seek support during your recovery process?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="supportPeriod" form="theForm">
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="support" name="support" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p class="label" >
+      How often have you kept track of progress?<br>
+      (e.g. Make a journal entry, kept a sober counter, etc.)
+    </p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="trackProgressPeriod" form="theForm">
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="trackProgress" name="trackProgress" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p class="label">How often do you read inspiriational messages/message of the day?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="messagePeriod" form="theForm">
+            <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="message" name="message" type="number"><br>
+        </td>
+      </tr>
+    </table>
+    <p class="label">How often do you reference of the 12 steps?</p>
+    <table>
+      <tr>
+        <td>Period</td>
+        <td>Frequency</td>
+      </tr>
+      <tr>
+        <td>
+          <select class = "select" name="twelveStepPeriod" form="theForm">
+           <option value=1>Daily</option>
+            <option value=7>Weekly</option>
+            <option value=30>Monthly</option>
+            <option value=365>Yearly</option>
+          </select>
+        </td>
+        <td>
+          <input class="input" id="twelveStep" name="twelveStep" type="number"><br>
+        </td>
+      </tr>
+    </table>
+
+
+    <table>
+      <p class="label">
+      Have you ever relapsed while in a 12 step recovery program?
+    </p>
+      <tr>
+        <td>
+           <input type="radio" name="relapse" value="1" checked> Yes<br>
+            <input type="radio" name="relapse" value="0"> No<br>
+        </td>
+        <td>
+        </td>
+      </tr>
+    </table>
+    <table>
+    <p class="label">
+      If you have relapsed, did you remain sober for at least one day after you first started attending 12 step meetings? <br>
+      (i.e. Duration until initial relapse greater than one day.)
+    </p>
+    <tr>
+      <td>
+         <input type="radio" name="day" value="1" checked> Yes<br>
+          <input type="radio" name="day" value="0"> No<br>
+      </td>
+      <td>
+      </td>
+    </tr>
+  </table>
+      <table>
+
+      <tr>
+        <td>
+        <p class="label">
+          Please respond to the prompt,
+          "I am engaged in my recovery proccess."
+        </p>
+    <ul class='likert'>
+      <li>
+        <input type="radio" name="likert" value="0.8">
+        <label>Strongly agree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="0.6">
+        <label>Agree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="0.4">
+        <label>Neutral</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="0.2">
+        <label>Disagree</label>
+      </li>
+      <li>
+        <input type="radio" name="likert" value="0.0">
+        <label>Strongly disagree</label>
+      </li>
+
+    </ul>
+    </td>
+      </tr>
+
+    </table>
+    <p></p>
+    <input type="submit" value="Submit">
+    Visualize Data</button>
+  </form>
+</div>
