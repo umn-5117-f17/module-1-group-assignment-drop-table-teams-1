@@ -77,9 +77,23 @@ tspan:nth-child(2n) {
     float:left; /* add this */
   }
 
-  .imageviewer{
-    position: relative;
-    float: right;
+  .pictures {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pictures > li {
+    float: left;
+    width: 33.3%;
+    height: 33.3%;
+    margin: 0 -1px -1px 0;
+    border: 1px solid transparent;
+    overflow: hidden;
+  }
+  .pictures > li > img {
+    width: 100%;
+    cursor: -webkit-zoom-in;
+    cursor: zoom-in;
   }
   .edge-text text{
      font: 6px sans-serif; }
@@ -161,11 +175,18 @@ div.tooltip {
   stroke-width: 2px;
 }
 
+.content {
+  max-width: 500px;
+ margin: auto;
+}
+
 #user-wrapper > div{
   float:left;
   margin:10px;
 }
-
+table {
+  border-collapse: separate !important;
+}
 .summary-wrapper {
     max-width: 950px;
     min-width: 304px;

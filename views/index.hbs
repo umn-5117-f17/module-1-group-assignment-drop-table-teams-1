@@ -3,45 +3,98 @@
 <head>
   <title>{{title}}</title>
   <script src="https://d3js.org/d3.v4.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="./javascripts/local.js"></script>
-  <script src="https://d3js.org/d3-zoom.v0.1.min.js"></script>
-  <script src="http://d3js.org/d3.v4.min.js"></script>
-<script src="d3-transform.js"></script>
-  <link rel='stylesheet' href='/stylesheets/style.css'/>
+  <script src="http://d3js.org/d3.v4.min.js"/></script>
+  <script src="https://d3js.org/d3-zoom.v0.1.min.js"/></script>
+  <script src="./javascripts/local.js"/></script>
+
+  <script src="./javascripts/viewer.js"/></script>
+
+
+  <link rel='stylesheet' href='/stylesheets/style.css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/viewer.min.css">
+
+
+
 </head>
 <body>
+  <style>
+
+    </style>
   <h1 style="text-align:center"> Hazelden's Field Guide to Life Data Visualization</h1>
+  <table>
+
+
+
+
+
+  <tr>
+    <th>
   <div class = "container">
     <button id="reset-zoom-button" >Reset</button>
-    <button id="quiz-button" >Take the Survey!</button>
+    <button id="quiz-button">Take the Survey!</button>
     <svg width="960" height="1000" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    </svg>
-
-
+  </svg>
+  <div class="legend">   <text>TA = Total Actions;
+      AD = Action Diversity;
+     E = Engagment;
+     DMV = Daily Message Views;
+     IR = Time till Initial Relapse;
+   </text></div>
+</div>
+</th>
+</tr>
+<tr>
+  <th>
     <div class= "imageviewer">
-      <text>TA = Total Actions;
-        AD = Action Diversity;
-       E = Engagment;
-       DMV = Daily Message Views;
-       IR = Time till Initial Relapse;
-     </text>
-      <div class ="image" width= "400" height= "200">
-        <img src='../image_thumbs/out_group1_after_final_2months.png' onclick='this.src="../images/group1_after_final_2months.png"' />
-      </div>
-      <div class="legend"> </div>
 
-<div>
 
-  <img id="image" src="../images/group10_after._final_1month.png?dim=200x100" alt="Picture">
+
+
+           <!-- Button trigger modal -->
+           <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
+             Launch the demo
+           </button>
+
+           <!-- Modal -->
+           <div class="modal fade" id="modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+             <div class="modal-dialog" role="document">
+             <!-- Modal content-->
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal"&times;
+                   </button>
+                   <h5 class="modal-title" id="modalLabel">Viewer</h5>
+       </div>
+       <div class="modal-body">
+
+<div id="images">
+  <ul class="pictures">
+    <li><img data-original="../images/group1_after_final_2months.png" src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture"></li>
+    <li><img data-original="../images/group1_after_final_2months.png" src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 2"></li>
+    <li><img data-original="../images/group1_after_final_2months.png"  src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 3"></li>
+  </ul>
+</div>
 </div>
 
+<div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</th>
+</tr>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"/></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
+
+
     var user_data = "{{ user_data }}"
     console.log("viz data pass: "+user_data);
     var commasplit = user_data.split(",");
@@ -216,17 +269,32 @@
 
       //d3.select("button").on("click", reset);
       createGraph(treeData,kv_col);
-      window.addEventListener('DOMContentLoaded', function () {
-      var galley = document.getElementById('galley');
+      $(document).ready(function () {
+      var images = document.getElementById('images');
       var viewer;
-      $('#modal').on('shown.bs.modal', function () {
-        viewer = new Viewer(galley, {
+      console.log(images);
+       $("#modal").modal("show");
+    //  $('#modal').modal("show");
+      $('#modal').on('shown.bs.modal', function (e) {
+        if(e.namespace === 'bs.modal') {
+        viewer = new Viewer(images, {
           url: 'data-original',
-        });
-      }).on('hidden.bs.modal', function () {
+          ready: function () {
+            viewer.show(true);},
+            shown: function (){
+              viewer.play(true);}
+            }
+          );
+        }
+      })
+    .on('hidden.bs.modal', function (e) {
+      if(e.namespace === 'bs.modal') {
         viewer.destroy();
+      }
       });
     });
+
+
 
     </script>
 
