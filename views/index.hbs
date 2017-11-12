@@ -2,19 +2,22 @@
 <html>
 <head>
   <title>{{title}}</title>
-  <script src="https://d3js.org/d3.v4.js"></script>
-  <script src="http://d3js.org/d3.v4.min.js"/></script>
-  <script src="https://d3js.org/d3-zoom.v0.1.min.js"/></script>
-  <script src="./javascripts/local.js"/></script>
 
-  <script src="./javascripts/viewer.js"/></script>
 
 
   <link rel='stylesheet' href='/stylesheets/style.css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.3/css/bulma.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="/stylesheets/viewer.min.css">
+
+  <!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/south-street/jquery-ui.css" id="theme">
+<link rel="stylesheet" href="//blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
 
 
 
@@ -24,14 +27,14 @@
 
     </style>
   <h1 style="text-align:center"> Hazelden's Field Guide to Life Data Visualization</h1>
-  <table>
 
 
 
+<div class="columns">
+  <div class="column is-two-fifths">
 
 
-  <tr>
-    <th>
+
   <div class = "container">
     <button id="reset-zoom-button" >Reset</button>
     <button id="quiz-button">Take the Survey!</button>
@@ -44,53 +47,72 @@
      IR = Time till Initial Relapse;
    </text></div>
 </div>
-</th>
-</tr>
-<tr>
-  <th>
-    <div class= "imageviewer">
 
 
 
-
-           <!-- Button trigger modal -->
-           <button type="button" class="btn btn-primary" data-target="#modal" data-toggle="modal">
-             Launch the demo
-           </button>
-
-           <!-- Modal -->
-           <div class="modal fade" id="modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
-             <div class="modal-dialog" role="document">
-             <!-- Modal content-->
-               <div class="modal-content">
-                 <div class="modal-header">
-                   <button type="button" class="close" data-dismiss="modal"&times;
-                   </button>
-                   <h5 class="modal-title" id="modalLabel">Viewer</h5>
-       </div>
-       <div class="modal-body">
-
-<div id="images">
-  <ul class="pictures">
-    <li><img data-original="../images/group1_after_final_2months.png" src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture"></li>
-    <li><img data-original="../images/group1_after_final_2months.png" src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 2"></li>
-    <li><img data-original="../images/group1_after_final_2months.png"  src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 3"></li>
-  </ul>
 </div>
+  <div class="column">
+
+  <p>
+     Loren Ipsum....
+  </p>
+      <!-- The dialog widget -->
+
+
+<!-- <div id="blueimp-gallery-dialog" data-show="fade" data-hide="fade">
+
+    <div class="blueimp-gallery blueimp-gallery-carousel blueimp-gallery-controls">
+        <div class="slides"></div>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="play-pause"></a>
+    </div>
+</div> -->
+
+
+
 </div>
 
-<div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 </div>
+
+
+<div class="your-class">
+  <div> <img src='../images/group1_after_final_2months.png' alt="Smiley face" height="300px" width="300px"> </div>
+  <div><a target="_blank" href="../images/group1_after_final_2months.png" height="300px" width="300px">
+  <img src="../images/group1_after_final_2months.png" alt="blah" height="300px" width="300px">
+</a></div>
+  <div>your content</div>
 </div>
+
+<div class= "imageviewer">
+
+    <!--  <img data-original="../images/group1_after_final_2months.png" src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 2">
+      <img data-original="../images/group1_after_final_2months.png"  src="../image_thumbs/out_group1_both_final_5months.png" alt="Picture 3">
+    -->
+  </div>
+
+
+<div  id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-carousel">
+<div class="slides"></div>
+<h3 class="title"></h3>
+<a class="prev">‹</a>
+<a class="next">›</a>
+<a class="close">×</a>
+<a class="play-pause"></a>
+<ol class="indicator"></ol>
 </div>
-</div>
-</div>
-</th>
-</tr>
-</table>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"/></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="http://d3js.org/d3.v4.min.js"/></script>
+<script src="https://d3js.org/d3-zoom.v0.1.min.js"/></script>
+<script src="./javascripts/local.js"/></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="//blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="./javascripts/jquery.blueimp-gallery.min.js"/></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.min.js"></script>
 
     <script type="text/javascript">
 
@@ -269,30 +291,92 @@
 
       //d3.select("button").on("click", reset);
       createGraph(treeData,kv_col);
-      $(document).ready(function () {
+
+
+      $(document).ready(function(){
+        $('.your-class').slick({
+          autoplay: true,
+          focusOnSelect:true,
+          slidesPerRow:3
+  });
+});
+//       var fullscreenOptions = {
+//     // Defines if the gallery should open in fullscreen mode:
+//     fullScreen: true
+// };
+//       blueimp.Gallery([
+//     {
+//         title: 'Banana',
+//         href: '../images/group1_after_final_2months.png',
+//         type: 'image/png',
+//         thumbnail: '../image_thumbs/out_group1_both_final_5months.png'
+//     },
+//     {
+//         title: 'Apple',
+//         href: '../images/group1_after_final_2months.png',
+//         type: 'image/png',
+//         thumbnail: '../image_thumbs/out_group1_both_final_5months.png'
+//     },
+//           //document.getElementById('links').getElementsByTagName('a'),
+//           {
+//               container: '#blueimp-gallery-carousel',
+//               carousel: true,
+//               fullScreen: true
+//           }
+//       ]);
+  /*  document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+}; */
+    /*  $(document).ready(function () {
       var images = document.getElementById('images');
       var viewer;
       console.log(images);
-       $("#modal").modal("show");
+       //$("#modal").modal("toggle");
+       console.log("render modal");
+     });
     //  $('#modal').modal("show");
+
       $('#modal').on('shown.bs.modal', function (e) {
         if(e.namespace === 'bs.modal') {
         viewer = new Viewer(images, {
           url: 'data-original',
+          toolbar: {
+                    zoomIn: 4,
+                    zoomOut: 4,
+                    oneToOne: 4,
+                    reset: 4,
+                    prev: 4,
+                    play: {
+                      show: 4,
+                      size: 'large',
+                    },
+                    next: 4,
+                    rotateLeft: 4,
+                    rotateRight: 4,
+                    flipHorizontal: 4,
+                    flipVertical: 4},
+
           ready: function () {
             viewer.show(true);},
             shown: function (){
+              viewer.full(true);
               viewer.play(true);}
             }
           );
         }
-      })
-    .on('hidden.bs.modal', function (e) {
+      }).on('hidden.bs.modal', function (e) {
       if(e.namespace === 'bs.modal') {
         viewer.destroy();
       }
       });
-    });
+
+      */
+
 
 
 
