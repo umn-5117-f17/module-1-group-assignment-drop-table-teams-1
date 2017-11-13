@@ -13,6 +13,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var survey = require('./routes/survey');
 var data = require('./routes/data');
+var about = require('./routes/about');
 
 
 // view engine setup
@@ -31,8 +32,10 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/data', data);
 app.use('/survey', survey);
+app.use('/about', about);
 
 app.use('/public', qt.static(__dirname + '/public/images'));
+app.use('/scripts', express.static(__dirname + '/node_modules/viewerjs/dist/'))
 
 
 // catch 404 and forward to error handler

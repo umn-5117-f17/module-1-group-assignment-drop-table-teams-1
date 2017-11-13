@@ -1,5 +1,79 @@
- $(function() {
+
+this.imagePreview = function(){
+	/* CONFIG */
+
+		xOffset = 10;
+		yOffset = -30;
+
+		// these 2 variable determine popup's distance from the cursor
+		// you might want to adjust to get the right result
+
+	/* END CONFIG */
+	$("a.preview").hover(function(e){
+		this.t = this.title;
+		this.title = "";
+		var c = (this.t != "") ? "<br/>" + this.t : "";
+		$("body").append("<p id='preview'><img height ='500px' width='500px' src='"+ this.href +"' alt='Image preview' />"+ c +"</p>");
+		$("#preview")
+			.css("top",(e.pageY - xOffset) + "px")
+			.css("left",(e.pageX + yOffset) + "px")
+			.fadeIn("fast");
+    },
+	function(){
+		this.title = this.t;
+		$("#preview").remove();
+    });
+	$("a.preview").mousemove(function(e){
+		$("#preview")
+			.css("top",(e.pageY - xOffset) + "px")
+			.css("left",(e.pageX + yOffset) + "px");
+	});
+};
+
+ $(document).ready(function() {
        var response = null;
+       $("#init-modal-btn").click( function(e) {
+         console.log("clicked");
+         //$(".modal").removeClass("active");
+         $(".modal").addClass("active");
+         //$(".modal").modal("toggle");
+       });
+        imagePreview();
+       $('.image-slider').slick({
+          centerMode: true,
+          centerPadding: '60px',
+          slidesToShow: 3,
+          adaptiveHeight: true,
+          dots:true,
+          settings: "unslick",
+          responsive: [
+   {
+     breakpoint: 768,
+     settings: {
+       arrows: false,
+       centerMode: true,
+       centerPadding: '40px',
+       slidesToShow: 3
+     }
+   },
+   {
+     breakpoint: 480,
+     settings: {
+       arrows: false,
+       centerMode: true,
+       centerPadding: '40px',
+       slidesToShow: 1
+     }
+   }
+ ]
+         // slidesToShow: 2,
+         // slidesToScroll: 2,
+          //autoplay: true,
+          //focusOnSelect:true
+         // slidesPerRow:2
+  });
+
+
 
    // $('#btn').click(function(e) {
    //   // console.log('click!');
@@ -55,6 +129,10 @@
      window.location.href = window.location+"survey"
 
    });
+	 $('#about-button').click(function(e){
+     window.location.href = window.location+"about"
+
+   });
  });
 
 
@@ -71,7 +149,37 @@
 $('input[type="checkbox"]').on('change', function() {
     $('input[name="' + this.name + '"]').not(this).prop('checked', false);
 });
-
+//
+// this.imagePreview = function(){
+// 	/* CONFIG */
+//
+// 		xOffset = 10;
+// 		yOffset = 30;
+//
+// 		// these 2 variable determine popup's distance from the cursor
+// 		// you might want to adjust to get the right result
+//
+// 	/* END CONFIG */
+// 	$("a.preview").hover(function(e){
+// 		this.t = this.title;
+// 		this.title = "";
+// 		var c = (this.t != "") ? "<br/>" + this.t : "";
+// 		$("body").append("<p id='preview'><img src='"+ this.href +"' alt='Image preview' />"+ c +"</p>");
+// 		$("#preview")
+// 			.css("top",(e.pageY - xOffset) + "px")
+// 			.css("left",(e.pageX + yOffset) + "px")
+// 			.fadeIn("fast");
+//     },
+// 	function(){
+// 		this.title = this.t;
+// 		$("#preview").remove();
+//     });
+// 	$("a.preview").mousemove(function(e){
+// 		$("#preview")
+// 			.css("top",(e.pageY - xOffset) + "px")
+// 			.css("left",(e.pageX + yOffset) + "px");
+// 	});
+// };
 
 
 //$(function() {
@@ -117,7 +225,7 @@ $("#reset-zoom-button").click(() => {
   function createGraph(treeData, userData){
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
   width = 800 - margin.right - margin.left,
-  height = 900 - margin.top - margin.bottom;
+  height = 600 - margin.top - margin.bottom;
   console.log(userData);
   d3.select('#reset-zoom-button').on('click',reset);
 var treemap = d3.tree()
@@ -155,10 +263,12 @@ var svg = d3.select("svg")
    var g = svg.append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
+
     function reset() {
                   g.transition()
                       .duration(750)
                       .attr("transform", "translate(151.47745046603399,184.97075387524603) scale(0.8950250709279729)")
+
 
                       // .call( zoom.transform, d3.zoomIdentity.translate(0, 0).scale(1) ); // not in d3 v4
                       //.call( d3.zoom(transform,d3.zoomIdentity)); // updated for d3 v4

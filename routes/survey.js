@@ -7,7 +7,7 @@ var qt = require('quickthumb');
 
 
 
-/* GET home page. */
+/* GET survey page. */
 router.get('/', function(req, res, next) {
   console.log("base survey render")
   res.render('survey');
